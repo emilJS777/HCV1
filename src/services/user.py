@@ -1,5 +1,6 @@
-from src.models import User, UserRole
+from src.models import User, UserRole, Role, RolePermission
 from src._response import response
+from flask import g
 
 
 # CREATE NEW USER
@@ -9,16 +10,16 @@ def user_create(user_name, password):
         return response(False, {'msg': 'user name is taken'}, 409)
 
     # ELSE USER BY THIS NAME SAVE
-    new_user = User(name=user_name, password=password)
+    new_user = User(name=user_name, password=password, creator_id=g.user_id)
     new_user.save_db()
     return response(True, {'msg': 'new user by id {} successfully created'.format(new_user.id)}, 200)
 
 
-# ROLE GET BY ID
+# USER GET BY ID
 def user_get_by_id(user_id):
     # GET USER BY ID END VERIFY USER DOES IT EXIST
     # IF NO RETURN NOT FOUND
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=user_id, creator_id=g.user_id).first()
     if not user:
         return response(False, {'msg': 'user by this id not found'}, 404)
 
@@ -30,7 +31,7 @@ def user_get_by_id(user_id):
 def user_get_all():
     arr = []
     # GET ALL USER
-    users = User.query.all()
+    users = User.query.filter_by(creator_id=g.user_id).all()
 
     # ITERATE OVER ONE AT A TIME AND INSERT THE USER OBJECT INTO THE ARRAY
     for user in users:
@@ -42,7 +43,7 @@ def user_get_all():
 def user_update(user_id, user_name):
     # GET USER BY ID AND VERIFY DOES IT EXIST
     # IF NO RETURN NOT FOUND
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=user_id, creator_id=g.user_id).first()
     if not user:
         return response(False, {'msg': 'user by this id not found'}, 404)
 
@@ -57,7 +58,7 @@ def user_update(user_id, user_name):
 def user_delete(user_id):
     # GET USER BY ID AND VERIFY DIES EXIST
     # IF NO RETURN NOT FOUND
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=user_id, creator_id=g.user_id).first()
     if not user:
         return response(False, {"msg": "user by this id not found"}, 404)
 
@@ -65,6 +66,15 @@ def user_delete(user_id):
     user_roles = UserRole.query.filter_by(user_id=user_id).all()
     for user_role in user_roles:
         user_role.delete_db()
+
+        # GET ROLE BY THIS ID AND REMOVE
+        role = Role.query.filter_by(id=user_role.role_id).first()
+        role.delete_db()
+
+        # ROLE PERMISSION BY THIS ROLE ID REMOVE LINKS
+        role_permissions = RolePermission.query.filter_by(role_id=role.id).all()
+        for role_permission in role_permissions:
+            role_permission.delete_db()
 
     # REMOVE THIS USER FROM DB
     user.delete_db()

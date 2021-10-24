@@ -5,6 +5,10 @@ from flask import g
 
 # GET PERMISSION IDS BY ROLE ID
 def get_permission_ids_by_role_id(role_id):
+    # CHECK WHETHER THE USER HAS SUCH ROLE IF NO ISSUE
+    if not Role.query.filter_by(id=role_id, creator_id=g.user_id).first():
+        return response(False, {'msg': 'role not found'}, 404)
+
     arr = []
     # GET ROLE PERMISSION BY ROLE ID
     role_permissions = RolePermission.query.filter_by(role_id=role_id).all()
@@ -28,7 +32,7 @@ def bind_role_permission(role_id, permission_id):
             if role_permission.permission_id == permission_id:
                 # VERIFY EXISTS PERMISSION AND ROLE BY THIS ID
                 # IF NO RETURN NOT FOUND
-                role = Role.query.filter_by(id=role_id).first()
+                role = Role.query.filter_by(id=role_id, creator_id=g.user_id).first()
                 permission = Permission.query.filter_by(id=permission_id).first()
                 if not role or not permission:
                     return response(False, {'msg': 'role and/or permission by this id not found'}, 404)
@@ -51,6 +55,10 @@ def bind_role_permission(role_id, permission_id):
 
 # UNBIND ROLE PERMISSION
 def unbind_role_permission(role_id, permission_id):
+    # CHECK WHETHER THE USER HAS SUCH ROLE IF NO ISSUE
+    if not Role.query.filter_by(id=role_id, creator_id=g.user_id).first():
+        return response(False, {'msg': 'role not found'}, 404)
+
     # GET AND CHECK WHETHER THIS COMMUNICATION EXISTS
     # IF NO RETURN NOT FOUND
     role_permission = RolePermission.query.filter_by(role_id=role_id, permission_id=permission_id).first()

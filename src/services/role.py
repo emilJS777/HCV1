@@ -6,7 +6,7 @@ from flask import g
 # CREATE NEW ROLE
 def role_create(role_name):
     # IF FIND THIS ROLE NAME RETURN RESPONSE CONFLICT
-    if Role.query.filter_by(name=role_name).first():
+    if Role.query.filter_by(name=role_name, creator_id=g.user_id).first():
         return response(False, {'msg': 'role name is taken'}, 409)
 
     # ELSE ROLE BY THIS NAME SAVE
@@ -19,7 +19,7 @@ def role_create(role_name):
 def role_get_by_id(role_id):
     # GET ROLE BY ID END VERIFY DOES IT EXIST
     # IF NO RETURN NOT FOUND
-    role = Role.query.filter_by(id=role_id).first()
+    role = Role.query.filter_by(id=role_id, creator_id=g.user_id).first()
     if not role:
         return response(False, {'msg': 'role by this id not found'}, 404)
 
@@ -31,7 +31,7 @@ def role_get_by_id(role_id):
 def role_get_all():
     arr = []
     # GET ALL ROLE
-    roles = Role.query.all()
+    roles = Role.query.filter_by(creator_id=g.user_id).all()
 
     # ITERATE OVER ONE AT A TIME AND INSERT THE ROLE OBJECT INTO THE ARRAY
     for role in roles:
@@ -43,7 +43,7 @@ def role_get_all():
 def role_update(role_id, role_name):
     # GET ROLE BY ID AND VERIFY DOES IT EXIST
     # IF NO RETURN NOT FOUND
-    role = Role.query.filter_by(id=role_id).first()
+    role = Role.query.filter_by(id=role_id, creator_id=g.user_id).first()
     if not role:
         return response(False, {'msg': 'role by this id not found'}, 404)
 
@@ -58,7 +58,7 @@ def role_update(role_id, role_name):
 def role_delete(role_id):
     # GET ROLE BY ID AND VERIFY DIES EXIST
     # IF NO RETURN NOT FOUND
-    role = Role.query.filter_by(id=role_id).first()
+    role = Role.query.filter_by(id=role_id, creator_id=g.user_id).first()
     if not role:
         return response(False, {"msg": "role by this id not found"}, 404)
 

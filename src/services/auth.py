@@ -24,7 +24,6 @@ def login(user_name, password):
                            "refresh_token": new_auth.refresh_token}, 200)
 
 
-# REFRESH TOKEN
 def refresh_token():
     # GET AUTH BY USER ID AND CHECK
     # FOR COMPLIANCE WITH THE REFRESH TOKEN

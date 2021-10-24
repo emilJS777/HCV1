@@ -14,9 +14,10 @@ class User(db.Model):
     firm_id = db.Column(db.Integer)
 
     # CONSTRUCTOR
-    def __init__(self, name, password):
+    def __init__(self, name, password, creator_id):
         self.name = name
         self.password_hash = generate_password_hash(password)
+        self.creator_id = creator_id
 
     # SAVE DB SELF
     def save_db(self):
