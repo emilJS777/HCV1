@@ -1,4 +1,4 @@
-#!/home/emil/Desktop/HC/venv/bin/python3.10
+#!/home/emil/Desktop/HCV1/venv/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys

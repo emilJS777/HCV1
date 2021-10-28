@@ -1,24 +1,16 @@
-from src.models import Firm, Client, User
+from src.services_db import firm_db, firm_user_db
 from src._response import response
 from flask import g
 
 
 # CREATE NEW FIRM
 def firm_create(firm_title, firm_description):
-    # FIND USER AND VERIFY DOES THE USER HAVE A CLIENT ID
-    user = User.query.filter_by(id=g.user_id).first()
-    client = Client.query.filter_by(id=user.client_id).first()
-
-    if not client:
-        return response(False, {'msg': 'you do not have a client, create a client'}, 404)
-
     # IF FIND THIS FIRM NAME RETURN RESPONSE CONFLICT
-    if Firm.query.filter_by(title=firm_title, client_id=client.id).first():
+    if firm_db.get_by_title_client_id(title=firm_title, client_id=g.client_id):
         return response(False, {'msg': 'firm title is taken'}, 409)
 
     # ELSE FIRM BY THIS NAME SAVE
-    new_firm = Firm(title=firm_title, description=firm_description, client_id=client.id)
-    new_firm.save_db()
+    new_firm = firm_db.create(title=firm_title, description=firm_description, client_id=g.client_id)
     return response(True, {'msg': 'new firm by id {} successfully created'.format(new_firm.id)}, 200)
 
 
@@ -26,8 +18,7 @@ def firm_create(firm_title, firm_description):
 def firm_get_by_id(firm_id):
     # GET FIRM BY ID END VERIFY USER DOES IT EXIST
     # IF NO RETURN NOT FOUND
-    user = User.query.filter_by(id=g.user_id).first()
-    firm = Firm.query.filter_by(id=firm_id, client_id=user.client_id).first()
+    firm = firm_db.get_by_id_client_id(firm_id=firm_id, client_id=g.client_id)
     if not firm:
         return response(False, {'msg': 'firm by this id not found'}, 404)
 
@@ -37,44 +28,37 @@ def firm_get_by_id(firm_id):
 
 # GET ALL FIRM
 def firm_get_all():
-    arr = []
-    # GET ALL FIRM BY THIS USER CLIENT ID
-    user = User.query.filter_by(id=g.user_id).first()
-    firms = Firm.query.filter_by(client_id=user.client_id).all()
-
-    # ITERATE OVER ONE AT A TIME AND INSERT THE FIRM OBJECT INTO THE ARRAY
-    for firm in firms:
-        arr.append({'id': firm.id, 'title': firm.title})
-    return response(True, arr, 200)
+    # GET ALL CLIENTS BY CLIENT ID
+    firms_ids = firm_db.get_all_ids_by_client_id(client_id=g.client_id)
+    return response(True, firms_ids, 200)
 
 
 # UPDATE FIRM
 def firm_update(firm_id, firm_title, firm_description):
-    # GET FIRM BY ID AND VERIFY DOES IT EXIST
-    # IF NO RETURN NOT FOUND
-    user = User.query.filter_by(id=g.user_id).first()
-    firm = Firm.query.filter_by(id=firm_id, client_id=user.client_id).first()
-    if not firm:
+    # GET FIRM BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
+    if not firm_db.get_by_id_client_id(firm_id=firm_id, client_id=g.client_id):
         return response(False, {'msg': 'firm by this id not found'}, 404)
 
-    # ELSE CHANGE AND UPDATE DB
-    # AND RETURN RESPONSE OK
-    firm.title = firm_title
-    firm.description = firm_description
-    firm.update_db()
+    # VERIFY IF THERE IS A FIRM WITH THE SAME TITLE RETURN CONFLICT
+    if firm_db.get_by_client_id_title_exclude_id(firm_id=firm_id, client_id=g.client_id, title=firm_title):
+        return response(False, {'msg': 'firm by this title exist'}, 409)
+
+    # ELSE CHANGE AND UPDATE DB AND RETURN RESPONSE OK
+    firm_db.update(firm_id=firm_id, client_id=g.client_id, title=firm_title, description=firm_description)
     return response(True, {'msg': 'firm successfully update'}, 200)
 
 
 # DELETE FIRM BY ID
 def firm_delete(firm_id):
-    # GET FIRM BY ID AND VERIFY DIES EXIST
-    # IF NO RETURN NOT FOUND
-    user = User.query.filter_by(id=g.user_id).first()
-    firm = Firm.query.filter_by(id=firm_id, client_id=user.client_id).first()
-    if not firm:
+    # GET FIRM BY ID AND VERIFY DIES EXIST. IF NO RETURN NOT FOUND
+    if not firm_db.get_by_id_client_id(firm_id=firm_id, client_id=g.client_id):
         return response(False, {"msg": "firm by this id not found"}, 404)
 
+    # GET USERS BY FIRM ID AND REMOVE BIND
+    for user_id in firm_user_db.get_user_ids_by_firm_id(firm_id=firm_id):
+        firm_user_db.delete_bind(firm_id=firm_id, user_id=user_id)
+
     # REMOVE THIS FIRM FROM DB
-    firm.delete_db()
+    firm_db.delete(firm_id=firm_id, client_id=g.client_id)
     return response(True, {'msg': "this firm successfully deleted"}, 200)
 

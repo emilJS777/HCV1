@@ -1,55 +1,42 @@
+from src.services_db import client_user_db, user_db, client_db
 from src._response import response
-from src.models import Client, User
 from flask import g
 
 
 # GET USER IDS BY CLIENT ID
 def get_user_ids_by_client_id(client_id):
     # GET ALL USERS WHICH CREATE USER
-    users = User.query.filter_by(client_id=client_id, creator_id=g.user_id).all()
-
-    # IN A CYCLE TO LOVE ID AND RETURN THE OPENER
-    arr_user_ids=[]
-    for user in users:
-        arr_user_ids.append(user.id)
-
-    return response(True, arr_user_ids, 200)
+    user_ids = client_user_db.get_user_ids_by_client_id_creator_id(client_id=client_id, creator_id=g.user_id)
+    return response(True, user_ids, 200)
 
 
 # BIND CLIENT USER
 def bind_client_user(client_id, user_id):
-    # GET USER AND CUSTOMER AND CHECK
-    client = Client.query.filter_by(id=client_id, creator_id=g.user_id).first()
-    user = User.query.filter_by(id=user_id, creator_id=g.user_id).first()
-
     #  IF ONE OF THEM DOES NOT EXIST RETURN NOT FOUND
-    if not client or not user:
+    if not client_db.get_by_id_creator_id(client_id=client_id, creator_id=g.user_id) \
+            or not user_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id):
         return response(False, {'msg': 'client or/and user not found'}, 404)
 
     # IF THE USER HAS SUCH CLIENT ID RETURN ANSWER ABOUT THE EXISTENCE OF THIS RECORD
-    if user.client_id == client_id:
+    if client_user_db.get_by_user_id_client_id(user_id=user_id, client_id=client_id):
         return response(False, {'msg': 'this client has such user'}, 409)
 
-    #  ELSE DELETE USER'S CLIENT ID
-    user.client_id = client_id
-    user.update_db()
+    #  ELSE BIND USER CLIENT ID
+    client_user_db.create_bind(client_id=client_id, user_id=user_id)
     return response(True, {'msg': 'client user successfully linked'}, 200)
 
 
 # UNBIND CLIENT USER
 def unbind_client_user(client_id, user_id):
-    # GET USER AND CUSTOMER AND CHECK
-    client = Client.query.filter_by(id=client_id, creator_id=g.user_id).first()
-    user = User.query.filter_by(id=user_id, creator_id=g.user_id).first()
-
-    # IF ONE OF THEM DOES NOT EXIST RETURN NOT FOUND
-    if not client or not user:
+    #  IF ONE OF THEM DOES NOT EXIST RETURN NOT FOUND
+    if not client_db.get_by_id_creator_id(client_id=client_id, creator_id=g.user_id) \
+            or not user_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id):
         return response(False, {'msg': 'client or/and user not found'}, 404)
 
     # IF THE USER DOESN'T HAVE SUCH CLIENT ID, RETURN AN ANSWER ABOUT THE ABSENCE OF THIS RECORD
-    if not user.client_id == client_id:
+    if not client_user_db.get_by_user_id_client_id(user_id=user_id, client_id=client_id):
         return response(False, {'msg': 'the client does not have such a user'}, 409)
 
-    user.client_id = None
-    user.update_db()
+    # GET USER BY ID AND REMOVE BIND ON CLIENT
+    client_user_db.delete_bind(client_id=client_id, user_id=user_id)
     return response(True, {'msg': 'client user link successfully deleted'}, 200)
