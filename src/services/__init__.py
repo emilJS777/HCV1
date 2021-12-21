@@ -1,1 +1,1 @@
-from . import permission, role, role_permission, user, user_role, auth, firm, firm_user
+from . import permission_service, role_service, role_permission_service, user_service, user_role_service, auth_service, firm_service, firm_user_service
