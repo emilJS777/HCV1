@@ -10,8 +10,7 @@ def check_authorize(f):
     @wraps(f)
     @jwt_required()
     def decorated_function(*args, **kwargs):
-        # FIND USER AUTH FROM DB & CHECK IS A ACCESS_TOKEN
-        # IF TOKENS MATCH, ASSIGN g.user_id user_id
+        # FIND USER AUTH FROM DB & CHECK IS A ACCESS_TOKEN. IF TOKENS MATCH, ASSIGN g.user_id user_id
         user_auth = Auth.query.filter_by(user_id=get_jwt_identity()).first()
         if user_auth.access_token == request.headers['authorization'].split(' ')[1]:
             

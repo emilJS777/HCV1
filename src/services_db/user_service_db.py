@@ -1,17 +1,19 @@
 from src.models.user_model import User
 
 
-def create(name, password, creator_id):
+def create(name, password, first_name, last_name, creator_id):
     # CREATE AND RETURN NEW USER
-    new_user = User(name=name, password=password, creator_id=creator_id)
+    new_user = User(name=name, password=password, first_name=first_name, last_name=last_name, creator_id=creator_id)
     new_user.save_db()
     return new_user
 
 
-def update(user_id, creator_id, user_name):
+def update(user_id, creator_id, user_name, first_name, last_name):
     # GET USER BY ID AND CREAtOR ID & UPDATE NAME
     user = User.query.filter_by(id=user_id, creator_id=creator_id).first()
     user.name = user_name
+    user.first_name = first_name
+    user.last_name = last_name
     user.update_db()
     return user
 

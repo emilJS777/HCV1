@@ -1,17 +1,23 @@
-from src.services_db import firm_service_db, firm_user_service_db
+from src.services_db import firm_service_db, firm_user_service_db, client_service_db
 from src._response import response
 from flask import g
 
 
 # CREATE NEW FIRM
 def firm_create(firm_title, firm_description):
-    # IF FIND THIS FIRM NAME RETURN RESPONSE CONFLICT
+    # IF FIND THIS FIRM TITLE RETURN RESPONSE CONFLICT
     if firm_service_db.get_by_title_client_id(title=firm_title, client_id=g.client_id):
         return response(False, {'msg': 'firm title is taken'}, 409)
 
-    # ELSE FIRM BY THIS NAME SAVE
-    new_firm = firm_service_db.create(title=firm_title, description=firm_description, client_id=g.client_id)
-    return response(True, {'msg': 'new firm by id {} successfully created'.format(new_firm.id)}, 200)
+    # IF THE NUMBER OF FIRMS IS ATTACHED RETURN LIMIT LOST
+    client = client_service_db.get_by_id(client_id=g.client_id)
+    if not len(firm_service_db.get_all_ids_by_client_id(client_id=g.client_id)) < client.max_count_firms:
+        return response(False, {'msg': 'limit lost'}, 202)
+
+    # ELSE FIRM BY THIS TITLE SAVE
+    else:
+        new_firm = firm_service_db.create(title=firm_title, description=firm_description, client_id=g.client_id)
+        return response(True, {'msg': 'new firm by id {} successfully created'.format(new_firm.id)}, 200)
 
 
 # FIRM GET BY ID

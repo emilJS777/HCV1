@@ -4,26 +4,27 @@ from flask import g
 
 
 # CREATE NEW CLIENT
-def client_create(client_name):
+def client_create(client_name, client_description, max_count_firms):
     # IF FIND THIS CLIENT NAME RETURN RESPONSE CONFLICT
     if client_service_db.get_by_name_creator_id(client_name=client_name, creator_id=g.user_id):
         return response(False, {'msg': 'client name is taken'}, 409)
 
     # ELSE CLIENT BY THIS NAME SAVE
-    new_client = client_service_db.create(client_name=client_name, creator_id=g.user_id)
+    new_client = client_service_db.create(client_name=client_name, client_description=client_description,
+                                          max_count_firms=max_count_firms, creator_id=g.user_id)
     return response(True, {'msg': 'new client by id {} successfully created'.format(new_client.id)}, 200)
 
 
 # CLIENT GET BY ID
 def client_get_by_id(client_id):
-    # GET CLIENT BY ID END VERIFY USER DOES IT EXIST
-    # IF NO RETURN NOT FOUND
+    # GET CLIENT BY ID END VERIFY USER DOES IT EXIST. IF NO RETURN NOT FOUND
     client = client_service_db.get_by_id_creator_id(client_id=client_id, creator_id=g.user_id)
     if not client:
         return response(False, {'msg': 'client by this id not found'}, 404)
 
     # ELSE RETURN THIS CLIENT AND STATUS OK
-    return response(True, {'name': client.name}, 200)
+    return response(True, {'name': client.name, 'description': client.description,
+                           'max_count_firms': client.max_count_firms}, 200)
 
 
 # GET ALL CLIENT
@@ -34,7 +35,7 @@ def client_get_all():
 
 
 # UPDATE CLIENT
-def client_update(client_id, client_name):
+def client_update(client_id, client_name, client_description, max_count_firms):
     # GET CLIENT BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
     if not client_service_db.get_by_id_creator_id(client_id=client_id, creator_id=g.user_id):
         return response(False, {'msg': 'client by this id not found'}, 404)
@@ -44,7 +45,8 @@ def client_update(client_id, client_name):
         return response(False, {'msg': 'client by this name exist'}, 409)
 
     # ELSE CHANGE AND UPDATE DB, AND RETURN RESPONSE OK
-    client_service_db.update(client_id=client_id, name=client_name)
+    client_service_db.update(client_id=client_id, client_name=client_name,
+                             client_description=client_description, max_count_firms=max_count_firms)
     return response(True, {'msg': 'client successfully update'}, 200)
 
 

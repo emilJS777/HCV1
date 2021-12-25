@@ -4,13 +4,14 @@ from flask import g
 
 
 # CREATE NEW USER
-def user_create(user_name, password):
+def user_create(user_name, password, first_name, last_name):
     # IF FIND THIS USERNAME RETURN RESPONSE CONFLICT
     if user_service_db.get_by_name(name=user_name):
         return response(False, {'msg': 'user name is taken'}, 409)
 
     # ELSE USER BY THIS NAME SAVE
-    new_user = user_service_db.create(name=user_name, password=password, creator_id=g.user_id)
+    new_user = user_service_db.create(name=user_name, password=password,
+                                      first_name=first_name, last_name=last_name, creator_id=g.user_id)
     return response(True, {'msg': 'new user by id {} successfully created'.format(new_user.id)}, 200)
 
 
@@ -22,7 +23,7 @@ def user_get_by_id(user_id):
         return response(False, {'msg': 'user by this id not found'}, 404)
 
     # ELSE RETURN THIS USER AND STATUS OK
-    return response(True, {'name': user.name}, 200)
+    return response(True, {'name': user.name, 'first_name': user.first_name, 'last_name': user.last_name}, 200)
 
 
 # GET ALL USER
@@ -33,7 +34,7 @@ def user_get_all():
 
 
 # UPDATE USER
-def user_update(user_id, user_name):
+def user_update(user_id, user_name, first_name, last_name):
     # GET USER BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
     user = user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id)
     if not user:
@@ -44,7 +45,8 @@ def user_update(user_id, user_name):
         return response(False, {'msg': 'user name is taken'}, 409)
 
     # ELSE CHANGE AND UPDATE DB AND RETURN RESPONSE OK
-    user_service_db.update(user_id=user_id, creator_id=g.user_id, user_name=user_name)
+    user_service_db.update(user_id=user_id, creator_id=g.user_id, user_name=user_name,
+                           first_name=first_name, last_name=last_name)
     return response(True, {'msg': 'user successfully update'}, 200)
 
 

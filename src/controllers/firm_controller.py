@@ -1,12 +1,15 @@
 from flask import request
 from src.services import firm_service
 from src.middlewares import permission_middleware, auth_middleware, client_middleware
+from flask_expects_json import expects_json
+from src.validators import firm_validator
 
 
 # CREATE NEW FIRM
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("create_firm")
 @client_middleware.check_client
+@expects_json(firm_validator.firm_schema)
 def firm_post():
     req = request.get_json()
     res = firm_service.firm_create(firm_title=req['title'], firm_description=req['description'])
@@ -35,6 +38,7 @@ def firm_get():
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("update_firm")
 @client_middleware.check_client
+@expects_json(firm_validator.firm_schema)
 def firm_update():
     req = request.get_json()
     res = firm_service.firm_update(firm_id=req['id'], firm_title=req['title'], firm_description=req['description'])

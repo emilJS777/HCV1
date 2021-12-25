@@ -1,11 +1,14 @@
 from flask import request
 from src.services import role_service
 from src.middlewares import permission_middleware, auth_middleware
+from flask_expects_json import expects_json
+from src.validators import role_validator
 
 
 # CREATE NEW ROLE
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("create_role")
+@expects_json(role_validator.role_schema)
 def role_post():
     req = request.get_json()
     res = role_service.role_create(role_name=req['name'])
@@ -31,6 +34,7 @@ def role_get():
 # UPDATE ROLE BY ID
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("update_role")
+@expects_json(role_validator.role_schema)
 def role_update():
     req = request.get_json()
     res = role_service.role_update(role_id=req['id'], role_name=req['name'])

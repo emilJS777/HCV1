@@ -5,8 +5,10 @@ from flask_bcrypt import generate_password_hash
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40), nullable=False)
+    name = db.Column(db.String(18), nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
+    first_name = db.Column(db.String(15), nullable=False)
+    last_name = db.Column(db.String(15), nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow())
     # NOT REQUIRE FIELDS
     creator_id = db.Column(db.Integer)
@@ -14,9 +16,11 @@ class User(db.Model):
     firm_id = db.Column(db.Integer)
 
     # CONSTRUCTOR
-    def __init__(self, name, password, creator_id):
+    def __init__(self, name, password, first_name, last_name, creator_id):
         self.name = name
         self.password_hash = generate_password_hash(password)
+        self.first_name = first_name
+        self.last_name = last_name
         self.creator_id = creator_id
 
     # SAVE DB SELF

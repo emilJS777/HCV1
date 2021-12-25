@@ -1,17 +1,20 @@
 from src.models.client_model import Client
 
 
-def create(client_name, creator_id):
+def create(client_name, client_description, max_count_firms, creator_id):
     # CREATE NEW CLIENT ASSIGN NAME AND CREATOR ID & RETURN
-    new_client = Client(name=client_name, creator_id=creator_id)
+    new_client = Client(name=client_name, description=client_description,
+                        max_count_firms=max_count_firms, creator_id=creator_id)
     new_client.save_db()
     return new_client
 
 
-def update(client_id, name):
+def update(client_id, client_name, max_count_firms, client_description):
     # GET CLIENT BY ID AND UPDATE & RETURN
     client = Client.query.filter_by(id=client_id).first()
-    client.name = name
+    client.name = client_name
+    client.description = client_description
+    client.max_count_firms = max_count_firms
     client.update_db()
     return client
 
@@ -20,6 +23,12 @@ def delete(client_id, creator_id):
     # GET CLIENT BY ID AND CREATOR ID. DELETE AND RETURN
     client = Client.query.filter_by(id=client_id, creator_id=creator_id).first()
     client.delete_db()
+    return client
+
+
+def get_by_id(client_id):
+    # GET CLIENT BY ID AND return
+    client = Client.query.filter_by(id=client_id).first()
     return client
 
 

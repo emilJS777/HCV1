@@ -6,7 +6,6 @@ from flask_jwt_extended import JWTManager
 from datetime import datetime
 import logging
 
-
 app = Flask(__name__)
 api = Api(app)
 
