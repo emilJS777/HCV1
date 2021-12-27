@@ -16,7 +16,7 @@ def client_post():
     return res
 
 
-# GET CREATE BY ID
+# GET CLIENT BY ID
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("get_client_by_id")
 def client_get_by_id(client_id):

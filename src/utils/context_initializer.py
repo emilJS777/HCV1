@@ -15,7 +15,8 @@ class Initializer:
                    "create_role", "get_role_by_id", "get_roles", "update_role", "delete_role",
                    "get_permission_ids_by_role_id", "bind_role_permission", "unbind_role_permission",
                    "create_user", "get_user_by_id", "get_users", "update_user", "delete_user",
-                   "get_role_ids_by_user_id", "bind_user_role", "unbind_user_role"]
+                   "get_role_ids_by_user_id", "bind_user_role", "unbind_user_role",
+                   "create_employee", "update_employee", "delete_employee", "get_employee_by_id", "get_employees"]
 
     def __init__(self):
         # CHECK OR CREATE FIRST ROLE

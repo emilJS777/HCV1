@@ -31,6 +31,12 @@ def get_by_name(name):
     return user
 
 
+def get_by_id(user_id):
+    # GET USER BY ID
+    user = User.query.filter_by(id=user_id).first()
+    return user
+
+
 def get_by_id_creator_id(user_id, creator_id):
     # GET AND RETURN USER BY ID AND CREATOR ID
     user = User.query.filter_by(id=user_id, creator_id=creator_id).first()
