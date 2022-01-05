@@ -22,8 +22,7 @@ def firm_create(firm_title, firm_description):
 
 # FIRM GET BY ID
 def firm_get_by_id(firm_id):
-    # GET FIRM BY ID END VERIFY USER DOES IT EXIST
-    # IF NO RETURN NOT FOUND
+    # GET FIRM BY ID END VERIFY USER DOES IT EXIST. IF NO RETURN NOT FOUND
     firm = firm_service_db.get_by_id_client_id(firm_id=firm_id, client_id=g.client_id)
     if not firm:
         return response(False, {'msg': 'firm by this id not found'}, 404)
