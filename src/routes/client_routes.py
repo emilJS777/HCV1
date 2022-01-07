@@ -11,7 +11,7 @@ app.add_url_rule("/api/client/<int:client_id>", view_func=client_controller.clie
 app.add_url_rule("/api/client", view_func=client_controller.client_post, methods=["POST"])
 
 # PUT CLIENT
-app.add_url_rule("/api/client", view_func=client_controller.client_update, methods=["PUT"])
+app.add_url_rule("/api/client/<int:client_id>", view_func=client_controller.client_update, methods=["PUT"])
 
 # DELETE CLIENT
-app.add_url_rule("/api/client", view_func=client_controller.client_delete, methods=["DELETE"])
+app.add_url_rule("/api/client/<int:client_id>", view_func=client_controller.client_delete, methods=["DELETE"])

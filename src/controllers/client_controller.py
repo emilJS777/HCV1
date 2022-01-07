@@ -36,17 +36,18 @@ def client_get():
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("update_client")
 @expects_json(client_validator.client_schema)
-def client_update():
+def client_update(client_id):
     req = request.get_json()
-    res = client_service.client_update(client_id=req['id'], client_name=req['name'],
-                                       client_description=req["description"], max_count_firms=req['max_count_firms'])
+    res = client_service.client_update(client_id=client_id,
+                                       client_name=req['name'],
+                                       client_description=req["description"],
+                                       max_count_firms=req['max_count_firms'])
     return res
 
 
 # DELETE CLIENT BY ID
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("delete_client")
-def client_delete():
-    req = request.get_json()
-    res = client_service.client_delete(client_id=req['id'])
+def client_delete(client_id):
+    res = client_service.client_delete(client_id=client_id)
     return res
