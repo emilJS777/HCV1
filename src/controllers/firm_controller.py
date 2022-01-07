@@ -11,8 +11,8 @@ from src.validators import firm_validator
 @client_middleware.check_client
 @expects_json(firm_validator.firm_schema)
 def firm_post():
-    req = request.get_json()
-    res = firm_service.firm_create(firm_title=req['title'], firm_description=req['description'])
+    req_body = request.get_json()
+    res = firm_service.firm_create(req_body=req_body)
     return res
 
 
@@ -39,9 +39,9 @@ def firm_get():
 @permission_middleware.check_permission("update_firm")
 @client_middleware.check_client
 @expects_json(firm_validator.firm_schema)
-def firm_update():
-    req = request.get_json()
-    res = firm_service.firm_update(firm_id=req['id'], firm_title=req['title'], firm_description=req['description'])
+def firm_update(firm_id):
+    req_body = request.get_json()
+    res = firm_service.firm_update(firm_id=firm_id, req_body=req_body)
     return res
 
 
@@ -49,7 +49,6 @@ def firm_update():
 @auth_middleware.check_authorize
 @permission_middleware.check_permission("delete_firm")
 @client_middleware.check_client
-def firm_delete():
-    req = request.get_json()
-    res = firm_service.firm_delete(firm_id=req['id'])
+def firm_delete(firm_id):
+    res = firm_service.firm_delete(firm_id=firm_id)
     return res

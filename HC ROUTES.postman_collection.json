@@ -1109,7 +1109,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"newfirm\",\n    \"description\": \"admintitle\"\n}",
+							"raw": "{\n    \"title\": \"new firm\",\n    \"activity_address\": \"activity address\",\n    \"legal_address\": \"legal address\",\n    \"phone_number\": \"phone number\",\n    \"email_address\": \"email address\",\n    \"tax_payer_number\": 234234,\n    \"state_register_number\": 123123,\n    \"leader_position\": \"leader_position\",\n    \"leader_full_name\": \"leader_full_name\",\n    \"accountant_position\": \"accountant_position\",\n    \"accountant_full_name\": \"accountant_full_name\",\n    \"cashier_full_name\": \"cashier_full_name\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1147,7 +1147,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"title\": \"new firm\",\n    \"description\": \"new firm description\"\n}",
+							"raw": "{\n    \"title\": \"new firm\",\n    \"activity_address\": \"activity address\",\n    \"legal_address\": \"legal address\",\n    \"phone_number\": \"phone number\",\n    \"email_address\": \"email address\",\n    \"tax_payer_number\": 234234,\n    \"state_register_number\": 123123,\n    \"leader_position\": \"leader_position\",\n    \"leader_full_name\": \"leader_full_name\",\n    \"accountant_position\": \"accountant_position\",\n    \"accountant_full_name\": \"accountant_full_name\",\n    \"cashier_full_name\": \"cashier_full_name\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1155,7 +1155,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/firm",
+							"raw": "http://127.0.0.1:5000/api/firm/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1166,7 +1166,8 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"firm"
+								"firm",
+								"1"
 							]
 						}
 					},
@@ -1185,7 +1186,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1193,7 +1194,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/firm",
+							"raw": "http://127.0.0.1:5000/api/firm/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1204,7 +1205,8 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"firm"
+								"firm",
+								"1"
 							]
 						}
 					},
@@ -1481,6 +1483,151 @@
 							"path": [
 								"api",
 								"employee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "email",
+			"item": [
+				{
+					"name": "create email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDY4MTU5OSwianRpIjoiNzk2NjhlMTMtYzU1ZC00MGQ3LWIxZGItOWY4ZWJkMjJjOTA2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNjQwNjgxNTk5LCJleHAiOjE2NDA2ODI3OTl9.g89pvI3r0YesljhsBuLo4MwxdNESyS7ULTZOQiOC24c",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"asa.sdadad@mail.ru\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/email",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDY4MTU5OSwianRpIjoiNzk2NjhlMTMtYzU1ZC00MGQ3LWIxZGItOWY4ZWJkMjJjOTA2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNjQwNjgxNTk5LCJleHAiOjE2NDA2ODI3OTl9.g89pvI3r0YesljhsBuLo4MwxdNESyS7ULTZOQiOC24c",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"1as.1dasdaas@yandex.ru\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/email",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete email",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDY4MTU5OSwianRpIjoiNzk2NjhlMTMtYzU1ZC00MGQ3LWIxZGItOWY4ZWJkMjJjOTA2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNjQwNjgxNTk5LCJleHAiOjE2NDA2ODI3OTl9.g89pvI3r0YesljhsBuLo4MwxdNESyS7ULTZOQiOC24c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/email",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get email by user id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDY4MTU5OSwianRpIjoiNzk2NjhlMTMtYzU1ZC00MGQ3LWIxZGItOWY4ZWJkMjJjOTA2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NSwibmJmIjoxNjQwNjgxNTk5LCJleHAiOjE2NDA2ODI3OTl9.g89pvI3r0YesljhsBuLo4MwxdNESyS7ULTZOQiOC24c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/email?user_id=5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"email"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "5"
+								}
 							]
 						}
 					},

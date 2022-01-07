@@ -4,9 +4,9 @@ from flask import g
 
 
 # CREATE NEW FIRM
-def firm_create(firm_title, firm_description):
+def firm_create(req_body):
     # IF FIND THIS FIRM TITLE RETURN RESPONSE CONFLICT
-    if firm_service_db.get_by_title_client_id(title=firm_title, client_id=g.client_id):
+    if firm_service_db.get_by_title_client_id(title=req_body['title'], client_id=g.client_id):
         return response(False, {'msg': 'firm title is taken'}, 409)
 
     # IF THE NUMBER OF FIRMS IS ATTACHED RETURN LIMIT LOST
@@ -16,7 +16,7 @@ def firm_create(firm_title, firm_description):
 
     # ELSE FIRM BY THIS TITLE SAVE
     else:
-        new_firm = firm_service_db.create(title=firm_title, description=firm_description, client_id=g.client_id)
+        new_firm = firm_service_db.create(req_body=req_body, client_id=g.client_id)
         return response(True, {'msg': 'new firm by id {} successfully created'.format(new_firm.id)}, 200)
 
 
@@ -28,7 +28,18 @@ def firm_get_by_id(firm_id):
         return response(False, {'msg': 'firm by this id not found'}, 404)
 
     # ELSE RETURN THIS FIRM AND STATUS OK
-    return response(True, {'title': firm.title, 'description': firm.description}, 200)
+    return response(True, {'title': firm.title,
+                           'activity_address': firm.activity_address,
+                           'legal_address': firm.legal_address,
+                           'phone_number': firm.phone_number,
+                           'email_address': firm.email_address,
+                           'tax_payer_number': firm.tax_payer_number,
+                           'state_register_number': firm.state_register_number,
+                           'leader_position': firm.leader_position,
+                           'leader_full_name': firm.leader_full_name,
+                           'accountant_position': firm.accountant_position,
+                           'accountant_full_name': firm.accountant_full_name,
+                           'cashier_full_name': firm.cashier_full_name}, 200)
 
 
 # GET ALL FIRM
@@ -39,17 +50,17 @@ def firm_get_all():
 
 
 # UPDATE FIRM
-def firm_update(firm_id, firm_title, firm_description):
+def firm_update(firm_id, req_body):
     # GET FIRM BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
     if not firm_service_db.get_by_id_client_id(firm_id=firm_id, client_id=g.client_id):
         return response(False, {'msg': 'firm by this id not found'}, 404)
 
     # VERIFY IF THERE IS A FIRM WITH THE SAME TITLE RETURN CONFLICT
-    if firm_service_db.get_by_client_id_title_exclude_id(firm_id=firm_id, client_id=g.client_id, title=firm_title):
+    if firm_service_db.get_by_client_id_title_exclude_id(firm_id=firm_id, client_id=g.client_id, title=req_body['title']):
         return response(False, {'msg': 'firm by this title exist'}, 409)
 
     # ELSE CHANGE AND UPDATE DB AND RETURN RESPONSE OK
-    firm_service_db.update(firm_id=firm_id, client_id=g.client_id, title=firm_title, description=firm_description)
+    firm_service_db.update(firm_id=firm_id, client_id=g.client_id, req_body=req_body)
     return response(True, {'msg': 'firm successfully update'}, 200)
 
 

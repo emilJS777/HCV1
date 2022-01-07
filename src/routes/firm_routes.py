@@ -11,7 +11,7 @@ app.add_url_rule("/api/firm/<int:firm_id>", view_func=firm_controller.firm_get_b
 app.add_url_rule("/api/firm", view_func=firm_controller.firm_post, methods=["POST"])
 
 # PUT FIRM
-app.add_url_rule("/api/firm", view_func=firm_controller.firm_update, methods=["PUT"])
+app.add_url_rule("/api/firm/<int:firm_id>", view_func=firm_controller.firm_update, methods=["PUT"])
 
 # DELETE FIRM
-app.add_url_rule("/api/firm", view_func=firm_controller.firm_delete, methods=["DELETE"])
+app.add_url_rule("/api/firm/<int:firm_id>", view_func=firm_controller.firm_delete, methods=["DELETE"])

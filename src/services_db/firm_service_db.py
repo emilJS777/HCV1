@@ -2,18 +2,33 @@ from src.models.firm_model import Firm
 from sqlalchemy import not_
 
 
-def create(title, description, client_id):
+def create(req_body, client_id):
     # CREATE NEW FIRM AND RETURN
-    new_firm = Firm(title=title, description=description, client_id=client_id)
+    new_firm = Firm(req_body['title'], req_body['activity_address'], req_body['legal_address'],
+                    req_body['phone_number'], req_body['email_address'], req_body['tax_payer_number'],
+                    req_body['state_register_number'], req_body['leader_position'], req_body['leader_full_name'],
+                    req_body['accountant_position'], req_body['accountant_full_name'], req_body['cashier_full_name'],
+                    client_id)
     new_firm.save_db()
     return new_firm
 
 
-def update(firm_id, client_id, title, description):
+def update(firm_id, req_body, client_id):
     # GET FIRM BY ID AND UPDATE & RETURN
     firm = Firm.query.filter_by(id=firm_id, client_id=client_id).first()
-    firm.title = title
-    firm.description = description
+
+    firm.title = req_body['title']
+    firm.activity_address = req_body['activity_address']
+    firm.legal_address = req_body['legal_address']
+    firm.phone_number = req_body['phone_number']
+    firm.email_address = req_body['email_address']
+    firm.tax_payer_number = req_body['tax_payer_number']
+    firm.state_register_number = req_body['state_register_number']
+    firm.leader_position = req_body['leader_position']
+    firm.leader_full_name = req_body['leader_full_name']
+    firm.accountant_position = req_body['accountant_position']
+    firm.accountant_full_name = req_body['accountant_full_name']
+    firm.cashier_full_name = req_body['cashier_full_name']
     firm.update_db()
     return firm
 
