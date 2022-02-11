@@ -10,7 +10,7 @@ app = Flask(__name__)
 api = Api(app)
 
 # CONNECT TO DATABASE CONFIG
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:Current-Root-Password@localhost/accounting_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:<password>@localhost/accounting_db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 db.init_app(app)

@@ -1,3 +1,3 @@
 from .config import app, db, logger
-from .utils import context_initializer
+from ._general.utils import context_initializer
 from . import routes
