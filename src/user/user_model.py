@@ -1,26 +1,24 @@
 from datetime import datetime
 from src import db
-from flask_bcrypt import generate_password_hash
 
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(18), nullable=False)
-    password_hash = db.Column(db.String(200), nullable=False)
-    first_name = db.Column(db.String(15), nullable=False)
-    last_name = db.Column(db.String(15), nullable=False)
+    name = db.Column(db.String(18), nullable=True)
+    password_hash = db.Column(db.String(200), nullable=True)
+    first_name = db.Column(db.String(15), nullable=True)
+    last_name = db.Column(db.String(15), nullable=True)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow())
+    ticket = db.Column(db.String(50), nullable=True, unique=True)
+
     # NOT REQUIRE FIELDS
     creator_id = db.Column(db.Integer)
     client_id = db.Column(db.Integer)
     firm_id = db.Column(db.Integer)
 
     # CONSTRUCTOR
-    def __init__(self, name, password, first_name, last_name, creator_id):
-        self.name = name
-        self.password_hash = generate_password_hash(password)
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, ticket, creator_id):
+        self.ticket = ticket
         self.creator_id = creator_id
 
     # SAVE DB SELF

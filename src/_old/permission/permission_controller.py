@@ -1,6 +1,6 @@
 from flask import request
 from . import permission_service, permission_middleware
-from ..middlewares import auth_middleware
+from src.middlewares import auth_middleware
 
 
 # CREATE NEW PERMISSION _FOR DEVELOPER
@@ -20,7 +20,14 @@ def permission_get_by_id(permission_id):
 
 # GET ALL PERMISSIONS
 @auth_middleware.check_authorize
-def permission_get():
+def permission_get_ids():
+    res = permission_service.permission_get_all_ids()
+    return res
+
+
+# GET PERMISSIONS ALL BY USER g
+@auth_middleware.check_authorize
+def permission_get_all():
     res = permission_service.permission_get_all()
     return res
 

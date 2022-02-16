@@ -1,12 +1,12 @@
 from flask import request
 from . import client_service, client_validator
-from ..middlewares import permission_middleware, auth_middleware
+from src.middlewares import auth_middleware, role_middleware
 from flask_expects_json import expects_json
 
 
 # CREATE NEW CLIENT
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("create_client")
+@role_middleware.check_roles(["super_admin"])
 @expects_json(client_validator.client_schema)
 def client_post():
     req = request.get_json()
@@ -17,7 +17,7 @@ def client_post():
 
 # GET CLIENT BY ID
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("get_client_by_id")
+@role_middleware.check_roles(["super_admin"])
 def client_get_by_id(client_id):
     res = client_service.client_get_by_id(client_id=client_id)
     return res
@@ -25,7 +25,7 @@ def client_get_by_id(client_id):
 
 # GET ALL CLIENT
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("get_clients")
+@role_middleware.check_roles(["super_admin"])
 def client_get():
     res = client_service.client_get_all()
     return res
@@ -33,7 +33,7 @@ def client_get():
 
 # UPDATE CLIENT BY ID
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("update_client")
+@role_middleware.check_roles(["super_admin"])
 @expects_json(client_validator.client_schema)
 def client_update(client_id):
     req = request.get_json()
@@ -46,7 +46,7 @@ def client_update(client_id):
 
 # DELETE CLIENT BY ID
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("delete_client")
+@role_middleware.check_roles(["super_admin"])
 def client_delete(client_id):
     res = client_service.client_delete(client_id=client_id)
     return res

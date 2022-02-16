@@ -1,6 +1,7 @@
 from flask import request
 from . import role_permission_service
-from ..middlewares import auth_middleware, permission_middleware
+from src.middlewares import auth_middleware
+from ..permission import permission_middleware
 
 
 # GET PERMISSION IDS BY ROLE ID

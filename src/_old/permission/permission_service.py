@@ -1,5 +1,5 @@
 from src.user_role import user_role_service_db
-from src.role_permission import role_permission_service_db
+from src._old.role_permission import role_permission_service_db
 from . import permission_service_db
 from src._response import response
 from flask import g
@@ -27,8 +27,8 @@ def permission_get_by_id(permission_id):
     return response(True, {'id': permission.id, 'name': permission.name}, 200)
 
 
-# GET ALL PERMISSION
-def permission_get_all():
+# GET ALL IDS PERMISSION
+def permission_get_all_ids():
     # GET AND RETURN ALL PERMISSION IDS BY USER ID
     permission_ids = []
     for role_id in user_role_service_db.get_role_ids_by_user_id(user_id=g.user_id):
@@ -36,6 +36,18 @@ def permission_get_all():
             permission_ids.append(permission_id)
 
     return response(True, permission_ids, 200)
+
+
+# GET ALL PERMISSION
+def permission_get_all():
+    # GET AND RETURN ALL PERMISSION IDS BY USER ID
+    permissions = []
+    for role_id in user_role_service_db.get_role_ids_by_user_id(user_id=g.user_id):
+        for permission_id in role_permission_service_db.get_permission_ids_by_role_id(role_id=role_id):
+            permission = permission_service_db.get_by_id(permission_id=permission_id)
+            permissions.append({'id': permission.id, 'name': permission.name})
+
+    return response(True, permissions, 200)
 
 
 # UPDATE PERMISSION

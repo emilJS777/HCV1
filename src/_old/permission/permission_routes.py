@@ -2,7 +2,10 @@ from src import app
 from . import permission_controller
 
 # GET ALL PERMISSIONS
-app.add_url_rule("/api/permission", view_func=permission_controller.permission_get, methods=["GET"])
+app.add_url_rule("/api/permission/all", view_func=permission_controller.permission_get_all, methods=["GET"])
+
+# GET ALL PERMISSION IDS
+app.add_url_rule("/api/permission", view_func=permission_controller.permission_get_ids, methods=["GET"])
 
 # GET PERMISSION BY ID
 app.add_url_rule("/api/permission/<int:permission_id>",

@@ -1,11 +1,12 @@
 from . import email_service, email_validator
 from flask import request
-from ..middlewares import auth_middleware
+from ..middlewares import auth_middleware, role_middleware
 from flask_expects_json import expects_json
 
 
 # CREATE EMAIL
 @auth_middleware.check_authorize
+@role_middleware.check_roles(["super_admin", "owner", "director", "accountant"])
 @expects_json(email_validator.email_schema)
 def email_create():
     req = request.get_json()
@@ -15,6 +16,7 @@ def email_create():
 
 # UPDATE EMAIL
 @auth_middleware.check_authorize
+@role_middleware.check_roles(["super_admin", "owner", "director", "accountant"])
 @expects_json(email_validator.email_schema)
 def email_update():
     req = request.get_json()
@@ -24,6 +26,7 @@ def email_update():
 
 # DELETE EMAIL
 @auth_middleware.check_authorize
+@role_middleware.check_roles(["super_admin", "owner", "director", "accountant"])
 def email_delete():
     res = email_service.email_delete()
     return res
@@ -31,6 +34,7 @@ def email_delete():
 
 # GET BY USER ID EMAIL
 @auth_middleware.check_authorize
+@role_middleware.check_roles(["super_admin", "owner", "director", "accountant"])
 def email_get_by_user_id():
     user_id = request.args['user_id']
     res = email_service.email_get_by_user_id(user_id=user_id)

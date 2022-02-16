@@ -4,7 +4,7 @@ from src import db
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    creator_id = db.Column(db.Integer, nullable=False)
+    creator_id = db.Column(db.Integer, nullable=True)
 
     # CONSTRUCTOR
     def __init__(self, name, creator_id):

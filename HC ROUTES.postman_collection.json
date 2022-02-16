@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_name\": \"director\",\n    \"password\": \"director\"\n}",
+							"raw": "{\n    \"user_name\": \"superadmin\",\n    \"password\": \"superadmin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,13 +69,13 @@
 			"name": "permission",
 			"item": [
 				{
-					"name": "get permissions",
+					"name": "get permissions ids",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NDI5NiwianRpIjoiNjU0NjVhMTMtY2QxYi00MzhmLWJmOTktMjRiY2I3OGQyZWNlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjQwNTk0Mjk2LCJleHAiOjE2NDA1OTU0OTZ9.p4gXuL1KmoZs-tG4mDCbIRD2Ay9rchTh8zghbe9EEpw",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NjE2MywianRpIjoiNGVmYjA1ZjUtNTcwYi00YjFmLWE2YzQtZGMyZGE1YmZiNTU4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ2MTYzLCJleHAiOjE2NDQ4NDczNjN9.Y5A_siOnBW-NNYYCgY792r9Z9GTPdcOd5EzNh3h7o6g",
 								"type": "text"
 							}
 						],
@@ -216,6 +216,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get all permissions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NzM0OSwianRpIjoiMjkxMGZmMDQtMDAyNy00ZjU2LTk5ZDYtNzk2ZDVjOTAxNDEzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ3MzQ5LCJleHAiOjE2NDQ4NDg1NDl9.tHyijJuepzwxTjfdR16sUZ41e6Rdt8lFgldSptzvYgs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/permission/all",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"permission",
+								"all"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -229,7 +259,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NTMxMywianRpIjoiOGI1ZmE4MGItNjJkYS00NWVjLTgwZTYtODdmNmYxZDcwNGVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQwNTk1MzEzLCJleHAiOjE2NDA1OTY1MTN9.25tYez-5dPVX-yQzvyN7AO9sZZK3SyAmiPaEb9MxkIE",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NzM0OSwianRpIjoiMjkxMGZmMDQtMDAyNy00ZjU2LTk5ZDYtNzk2ZDVjOTAxNDEzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ3MzQ5LCJleHAiOjE2NDQ4NDg1NDl9.tHyijJuepzwxTjfdR16sUZ41e6Rdt8lFgldSptzvYgs",
 								"type": "text"
 							}
 						],
@@ -255,9 +285,15 @@
 					"name": "get role by id",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDgzODA4OSwianRpIjoiNDE4NmRlOWEtMDQxNC00YTE3LTkyMzctMjgzZDdjYjljODZhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODM4MDg5LCJleHAiOjE2NDQ4MzkyODl9.fRMWtZTlRe56s8BslAZEPxYHe_Lcw5pLtmsz-fCxvvM",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/role/2",
+							"raw": "http://127.0.0.1:5000/api/role/5",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -269,7 +305,7 @@
 							"path": [
 								"api",
 								"role",
-								"2"
+								"5"
 							]
 						}
 					},
@@ -282,13 +318,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NTMxMywianRpIjoiOGI1ZmE4MGItNjJkYS00NWVjLTgwZTYtODdmNmYxZDcwNGVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQwNTk1MzEzLCJleHAiOjE2NDA1OTY1MTN9.25tYez-5dPVX-yQzvyN7AO9sZZK3SyAmiPaEb9MxkIE",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NDQ5NCwianRpIjoiM2VjNGU5N2YtMTE4MS00OTYwLTlkNjgtOTc0MmQ4ZjYwZGZjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ0NDk0LCJleHAiOjE2NDQ4NDU2OTR9.I_4_4vlpM_eHeSd_lTHHN9OKJ_PP76uxzr7QQnKuTIE",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"director\"\n}",
+							"raw": "{\n    \"name\": \"cassier\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -389,13 +425,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NTMxMywianRpIjoiOGI1ZmE4MGItNjJkYS00NWVjLTgwZTYtODdmNmYxZDcwNGVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQwNTk1MzEzLCJleHAiOjE2NDA1OTY1MTN9.25tYez-5dPVX-yQzvyN7AO9sZZK3SyAmiPaEb9MxkIE",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NzM0OSwianRpIjoiMjkxMGZmMDQtMDAyNy00ZjU2LTk5ZDYtNzk2ZDVjOTAxNDEzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ3MzQ5LCJleHAiOjE2NDQ4NDg1NDl9.tHyijJuepzwxTjfdR16sUZ41e6Rdt8lFgldSptzvYgs",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"role_id\": 3,\n    \"permission_id\": 34\n}",
+							"raw": "{\n    \"role_id\": 6,\n    \"permission_id\": 13\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -488,7 +524,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NTMxMywianRpIjoiOGI1ZmE4MGItNjJkYS00NWVjLTgwZTYtODdmNmYxZDcwNGVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQwNTk1MzEzLCJleHAiOjE2NDA1OTY1MTN9.25tYez-5dPVX-yQzvyN7AO9sZZK3SyAmiPaEb9MxkIE",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NzA3OCwianRpIjoiZTZiMzVmYmYtZjM0OC00YzdmLWJmYzktY2RkNzY0MGI5MDNlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ3MDc4LCJleHAiOjE2NDQ4NDgyNzh9.lX3E0f92Xm9peaUqF2PvCpjE8qlBRPDNfSACFuQkN9o",
 								"type": "text"
 							}
 						],
@@ -587,7 +623,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NTMxMywianRpIjoiOGI1ZmE4MGItNjJkYS00NWVjLTgwZTYtODdmNmYxZDcwNGVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQwNTk1MzEzLCJleHAiOjE2NDA1OTY1MTN9.25tYez-5dPVX-yQzvyN7AO9sZZK3SyAmiPaEb9MxkIE",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NDQ5NCwianRpIjoiM2VjNGU5N2YtMTE4MS00OTYwLTlkNjgtOTc0MmQ4ZjYwZGZjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ0NDk0LCJleHAiOjE2NDQ4NDU2OTR9.I_4_4vlpM_eHeSd_lTHHN9OKJ_PP76uxzr7QQnKuTIE",
 								"type": "text"
 							}
 						],
@@ -613,9 +649,15 @@
 					"name": "get user by id",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDY2Njg3OSwianRpIjoiYjczN2VhODktZTgxYi00N2FkLWIyZjctZmJjMjQxZmMxMjFkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0NjY2ODc5LCJleHAiOjE2NDQ2NjgwNzl9.Hng3zNkcJRwVyg0g8Idl43qoib3H3HeWCsHOhFhidH0",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/user/1",
+							"raw": "http://127.0.0.1:5000/api/user/4",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -627,7 +669,14 @@
 							"path": [
 								"api",
 								"user",
-								"1"
+								"4"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -646,7 +695,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"director\",\n    \"first_name\": \"admin1\",\n    \"last_name\": \"admin2\",\n    \"password\": \"director\"\n}",
+							"raw": "{\n    \"name\": \"mr_smit\",\n    \"first_name\": \"smit\",\n    \"last_name\": \"smitovich\",\n    \"password\": \"mr_smit\",\n    \"ticket\": \"POtlPRheeWRXFeS44s1F38nUPvP77umyhY34i5X2i3Bgx\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -736,6 +785,36 @@
 							"path": [
 								"api",
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user ticket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDg0NDQ5NCwianRpIjoiM2VjNGU5N2YtMTE4MS00OTYwLTlkNjgtOTc0MmQ4ZjYwZGZjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjQ0ODQ0NDk0LCJleHAiOjE2NDQ4NDU2OTR9.I_4_4vlpM_eHeSd_lTHHN9OKJ_PP76uxzr7QQnKuTIE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/api/user/ticket",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"ticket"
 							]
 						}
 					},
@@ -870,7 +949,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"name\": \"cleint001\",\n    \"description\": \"description\",\n    \"max_count_firms\": 5\n}",
+							"raw": "{\n    \"name\": \"cleint001\",\n    \"description\": \"description\",\n    \"max_count_firms\": 5\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -878,7 +957,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/client",
+							"raw": "http://127.0.0.1:5000/api/client/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -889,7 +968,8 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"client"
+								"client",
+								"1"
 							]
 						}
 					},
@@ -908,7 +988,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -916,7 +996,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/client",
+							"raw": "http://127.0.0.1:5000/api/client/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -927,7 +1007,8 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"client"
+								"client",
+								"1"
 							]
 						}
 					},
@@ -1103,13 +1184,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MDU5NTMxMywianRpIjoiOGI1ZmE4MGItNjJkYS00NWVjLTgwZTYtODdmNmYxZDcwNGVlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQwNTk1MzEzLCJleHAiOjE2NDA1OTY1MTN9.25tYez-5dPVX-yQzvyN7AO9sZZK3SyAmiPaEb9MxkIE",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NDkxMjA4OCwianRpIjoiZTQwNTU5ZTgtMTgwNC00YzFmLWI1ZjYtMThmMmVhZTA4ZjRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MjQsIm5iZiI6MTY0NDkxMjA4OCwiZXhwIjoxNjQ0OTEzMjg4fQ.nrs3ShYYDtKahcEhlG1bLEjeYIgKvdhAYCuI0Cl-V_0",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"new firm\",\n    \"activity_address\": \"activity address\",\n    \"legal_address\": \"legal address\",\n    \"phone_number\": \"phone number\",\n    \"email_address\": \"email address\",\n    \"tax_payer_number\": 234234,\n    \"state_register_number\": 123123,\n    \"leader_position\": \"leader_position\",\n    \"leader_full_name\": \"leader_full_name\",\n    \"accountant_position\": \"accountant_position\",\n    \"accountant_full_name\": \"accountant_full_name\",\n    \"cashier_full_name\": \"cashier_full_name\"\n}",
+							"raw": "{\n    \"title\": \"smit firm\",\n    \"activity_address\": \"activity address\",\n    \"legal_address\": \"legal address\",\n    \"phone_number\": \"phone number\",\n    \"email_address\": \"email address\",\n    \"tax_payer_number\": 234234,\n    \"state_register_number\": 123123,\n    \"leader_position\": \"leader_position\",\n    \"leader_full_name\": \"leader_full_name\",\n    \"accountant_position\": \"accountant_position\",\n    \"accountant_full_name\": \"accountant_full_name\",\n    \"cashier_full_name\": \"cashier_full_name\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1141,13 +1222,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzNTA4NDgyNCwianRpIjoiNzYxZGI0ZTctYjAwNS00OGU0LTkwMmEtNTg2MmNlYmJiMzE3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjM1MDg0ODI0LCJleHAiOjE2NTMwODQ4MjR9.BIKzkVlONM3qP2YcbFFB7fVaVJ3CZGH5568JXooGZls",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0MTUzODQ3MywianRpIjoiY2VmMjhjMjUtNzgwNC00ZDU2LWI2NDUtNzhiNmViOTYwNjQyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NCwibmJmIjoxNjQxNTM4NDczLCJleHAiOjE2NDE1Mzk2NzN9.umj_Ult8QWA3lBS0cya-LEkK1SJ7e1BdcxT5tN4BbHg",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"new firm\",\n    \"activity_address\": \"activity address\",\n    \"legal_address\": \"legal address\",\n    \"phone_number\": \"phone number\",\n    \"email_address\": \"email address\",\n    \"tax_payer_number\": 234234,\n    \"state_register_number\": 123123,\n    \"leader_position\": \"leader_position\",\n    \"leader_full_name\": \"leader_full_name\",\n    \"accountant_position\": \"accountant_position\",\n    \"accountant_full_name\": \"accountant_full_name\",\n    \"cashier_full_name\": \"cashier_full_name\"\n}",
+							"raw": "{\n    \"title\": \"new firm2\",\n    \"activity_address\": \"activity address\",\n    \"legal_address\": \"legal address\",\n    \"phone_number\": \"phone number\",\n    \"email_address\": \"email address\",\n    \"tax_payer_number\": 234234,\n    \"state_register_number\": 123123,\n    \"leader_position\": \"leader_position\",\n    \"leader_full_name\": \"leader_full_name\",\n    \"accountant_position\": \"accountant_position1\",\n    \"accountant_full_name\": \"accountant_full_name1\",\n    \"cashier_full_name\": \"cashier_full_name\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1155,7 +1236,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/api/firm/1",
+							"raw": "http://127.0.0.1:5000/api/firm/6",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1167,7 +1248,7 @@
 							"path": [
 								"api",
 								"firm",
-								"1"
+								"6"
 							]
 						}
 					},

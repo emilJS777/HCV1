@@ -1,11 +1,25 @@
 from .user_model import User
+from flask_bcrypt import generate_password_hash
+from .user_helper import generate_ticket_code
 
 
-def create(name, password, first_name, last_name, creator_id):
+def create(ticket, name, password, first_name, last_name):
     # CREATE AND RETURN NEW USER
-    new_user = User(name=name, password=password, first_name=first_name, last_name=last_name, creator_id=creator_id)
-    new_user.save_db()
+    new_user = User.query.filter_by(ticket=ticket).first()
+    new_user.name = name
+    new_user.password_hash = generate_password_hash(password)
+    new_user.first_name = first_name
+    new_user.last_name = last_name
+    new_user.ticket = None
+    new_user.update_db()
     return new_user
+
+
+def create_ticket(creator_id):
+    # CREATE NEW USER AND TICKET
+    user = User(ticket=generate_ticket_code(), creator_id=creator_id)
+    user.save_db()
+    return user
 
 
 def update(user_id, creator_id, user_name, first_name, last_name):
@@ -34,6 +48,12 @@ def get_by_name(name):
 def get_by_id(user_id):
     # GET USER BY ID
     user = User.query.filter_by(id=user_id).first()
+    return user
+
+
+def get_by_ticket(ticket):
+    # GET USER MODEL BY TICKET
+    user = User.query.filter_by(ticket=ticket).first()
     return user
 
 

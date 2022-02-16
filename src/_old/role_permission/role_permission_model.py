@@ -1,5 +1,6 @@
 from src import db
 
+
 class RolePermission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     role_id = db.Column(db.Integer, nullable=False)

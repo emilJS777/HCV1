@@ -12,12 +12,12 @@ def check_client(f):
     def decorated_function(*args, **kwargs):
         # FIND CLIENT ID BY g.user_id
         # IF NOT CLIENT ID OR NOT CLIENT RETURN NOT FOUND
-        client = user_service_db.get_by_id(user_id=g.user_id)
-        if not client or not client_service_db.get_by_id(client_id=client.id):
+        user = user_service_db.get_by_id(user_id=g.user_id)
+        if not user or not client_service_db.get_by_id(client_id=user.client_id):
             return response(False, {'msg': 'client not found'}, 404)
 
         # IF CLIENT ID FOUND g.client_id ASSIGN CLIENT ID
-        g.client_id = client.id
+        g.client_id = user.client_id
         return f(*args, **kwargs)
 
     return decorated_function

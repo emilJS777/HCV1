@@ -10,3 +10,4 @@ app.add_url_rule("/api/role-permission", view_func=role_permission_controller.bi
 
 # UNBIND ROLE PERMISSION
 app.add_url_rule("/api/role-permission", view_func=role_permission_controller.unbind_role_permission, methods=["DELETE"])
+

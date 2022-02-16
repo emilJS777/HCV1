@@ -8,7 +8,7 @@ from flask import g
 # GET PERMISSION IDS BY ROLE ID
 def get_permission_ids_by_role_id(role_id):
     # CHECK WHETHER THE USER HAS SUCH ROLE IF NO ISSUE
-    if not role_service_db.get_by_id_creator_id(role_id=role_id, creator_id=g.user_id):
+    if not role_service_db.get_by_id(role_id=role_id):
         return response(False, {'msg': 'role not found'}, 404)
 
     # GET PERMISSION IDS BY ROLE ID
@@ -19,7 +19,7 @@ def get_permission_ids_by_role_id(role_id):
 # BIND ROLE PERMISSION
 def bind_role_permission(role_id, permission_id):
     # IF ROLE ID NOT FIND RETURN 404 NOT FOUND
-    if not role_service_db.get_by_id_creator_id(role_id=role_id, creator_id=g.user_id):
+    if not role_service_db.get_by_id(role_id=role_id):
         return response(False, {'msg': 'role by this id not found'}, 404)
 
     # GET ROLE ID FROM USER AND OVERRIDE RESOLUTION
@@ -45,7 +45,7 @@ def bind_role_permission(role_id, permission_id):
 # UNBIND ROLE PERMISSION
 def unbind_role_permission(role_id, permission_id):
     # CHECK WHETHER THE USER HAS SUCH ROLE IF NO ISSUE
-    if not role_service_db.get_by_id_creator_id(role_id=role_id, creator_id=g.user_id):
+    if not role_service_db.get_by_id(role_id=role_id):
         return response(False, {'msg': 'role not found'}, 404)
 
     # GET AND CHECK WHETHER THIS COMMUNICATION EXISTS. IF NO RETURN NOT FOUND

@@ -8,7 +8,7 @@ def create(req_body, client_id):
                     req_body['phone_number'], req_body['email_address'], req_body['tax_payer_number'],
                     req_body['state_register_number'], req_body['leader_position'], req_body['leader_full_name'],
                     req_body['accountant_position'], req_body['accountant_full_name'], req_body['cashier_full_name'],
-                    client_id)
+                    client_id=client_id)
     new_firm.save_db()
     return new_firm
 

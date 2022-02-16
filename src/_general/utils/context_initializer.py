@@ -1,14 +1,13 @@
 from src import logger
-from colorama import Fore, Back, Style
+from colorama import Fore
 from src.user_role import user_role_service_db
-from src.role_permission import role_permission_service_db
+from src._old.role_permission import role_permission_service_db
 from src.user import user_service_db
 from src.role import role_service_db
-from src.permission import permission_service_db
+from src._old.permission import permission_service_db
 
 
 class Initializer:
-    user = {"name": "super_admin", "password": "super_admin123", "first_name": "super", "last_name": "admin"}
     role = {"name": "super_admin"}
     permissions = ["create_client", "get_client_by_id", "get_clients", "update_client", "delete_client",
                    "get_user_ids_by_client_id", "bind_client_user", "unbind_client_user",
@@ -17,7 +16,7 @@ class Initializer:
                    # "create_permission", "update_permission", "delete_permission",
                    "create_role", "get_role_by_id", "get_roles", "update_role", "delete_role",
                    "get_permission_ids_by_role_id", "bind_role_permission", "unbind_role_permission",
-                   "create_user", "get_user_by_id", "get_users", "update_user", "delete_user",
+                   "create_user", "create_user_ticket", "get_user_by_id", "get_users", "update_user", "delete_user",
                    "get_role_ids_by_user_id", "bind_user_role", "unbind_user_role",
                    "create_employee", "update_employee", "delete_employee", "get_employee_by_id", "get_employees"]
 
@@ -31,27 +30,23 @@ class Initializer:
             self.init_role_permission(role_id=role.id, permission_id=permission.id)
 
         # CHECK OR CREATE FIRST ADMIN
-        user = self.init_first_admin(user_name=self.user["name"], user_password=self.user["password"],
-                                     first_name=self.user["first_name"], last_name=self.user["last_name"])
+        user = self.init_first_admin()
 
         # CHECK OR CREATE BIND USER ROLE
         self.init_user_role(user_id=user.id, role_id=role.id)
 
     @staticmethod
-    def init_first_admin(user_name, user_password, first_name, last_name):
+    def init_first_admin():
         # CHECK OR CREATE FIRST ADMIN
-        user = user_service_db.get_by_name(name=user_name) or \
-               user_service_db.create(name=user_name, password=user_password,
-                                      first_name=first_name, last_name=last_name, creator_id=0)
-        logger.info(f"first user {Fore.BLUE + user.name + Fore.RESET} and him password "
-                    f"{Fore.BLUE + user_password + Fore.RESET} created")
+        user = user_service_db.create_ticket(creator_id=None)
+        logger.info(f"first ticket {Fore.BLUE + user.ticket + Fore.RESET} created")
         return user
 
     @staticmethod
     def init_first_role(role_name):
         # CHECK OR CREATE FIRST ROLE
-        role = role_service_db.get_by_name_creator_id(name=role_name, creator_id=0) or \
-               role_service_db.create(name=role_name, creator_id=0)
+        role = role_service_db.get_by_name(name=role_name) or \
+               role_service_db.create(name=role_name, creator_id=None)
         logger.info(f"first role {role.name} created")
         return role
 

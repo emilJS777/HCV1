@@ -5,8 +5,6 @@ from .email import email_routes
 from .employee import employee_routes
 from .firm import firm_routes
 from .firm_user import firm_user_routes
-from .permission import permission_routes
 from .role import role_routes
-from .role_permission import role_permission_routes
 from .user import user_routes
 from .user_role import user_role_routes

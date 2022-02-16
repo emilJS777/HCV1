@@ -19,9 +19,8 @@ def get_role_ids_by_user_id(user_id):
 # BIND USER ROLE
 def bind_user_role(user_id, role_id):
     # VERIFY EXISTS USER AND ROLE BY THIS ID. IF NO RETURN NOT FOUND
-    user = user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id)
-    role = role_service_db.get_by_id_creator_id(role_id=role_id, creator_id=g.user_id)
-    if not user or not role:
+    if not user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id) or \
+            not role_service_db.get_by_id(role_id=role_id):
         return response(False, {'msg': 'user and/or role by this id not found'}, 404)
 
     # CHECK IF THIS CONNECTION EXISTS. IF EXISTING RETURN CONFLICT

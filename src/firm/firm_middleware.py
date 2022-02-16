@@ -15,7 +15,7 @@ def check_firm(f):
         if not firm_id:
             return response(False, {'msg': 'you are not tied to a firm'}, 404)
 
-        # ELSE ESSIGN g.firm_id ID FIRM BY USER FIRM ID
+        # ELSE ASSIGN g.firm_id ID FIRM BY USER FIRM ID
         g.firm_id = firm_id
         return f(*args, **kwargs)
 
