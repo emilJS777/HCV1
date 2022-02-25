@@ -1,8 +1,8 @@
-from src.user_role import user_role_service_db
 from src.client_user import client_user_service_db
-from src.firm_user import firm_user_service_db
+from src.user_permission import user_permission_service_db
 from . import user_service_db
 from src._response import response
+from src.firm_user import firm_user_service_db
 from flask import g
 
 
@@ -23,25 +23,31 @@ def create_user(ticket, user_name, password, first_name, last_name):
 
 
 # CREATE USER TICKET
-def create_user_ticket(creator_id):
-    creator = user_service_db.get_by_id(user_id=creator_id)
+def create_user_ticket(creator_id, client_id, firm_id):
+    # CREATE USER AND VERIFY IF CREATOR TIED TO CLIENT means to bind the new user too
     user = user_service_db.create_ticket(creator_id=creator_id)
 
-    # IF CREATOR USER HAS CLIENT ID BIND NEW USER AND THIS CLIENT ID
-    if creator.client_id:
-        client_user_service_db.create_bind(client_id=creator.client_id, user_id=user.id)
+    # IF CLIENT ID EXIST BIND NEW USER AND CLIENT ID
+    if client_id:
+        client_user_service_db.create_bind(client_id=client_id, user_id=user.id)
 
-    # IF CREATOR USER HAS FIRM ID BIND NEW USER AND THIS FIRM ID
-    if creator.firm_id:
-        firm_user_service_db.create_bind(firm_id=creator.firm_id, user_id=user.id)
+    # IF FIRM ID EXIST BIND NEW USER AND FIRM ID
+    if firm_id:
+        firm_user_service_db.bind_firm_user(firm_id=firm_id, user_id=user.id)
 
     return response(True, {'id': user.id, 'ticket': user.ticket}, 200)
 
 
 # USER GET BY ID
 def user_get_by_id(user_id):
-    # GET USER BY ID END VERIFY USER DOES IT EXIST. IF NO RETURN NOT FOUND
-    user = user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id)
+    # ELSE IF CLIENT ID EXIST RETURN ALL USERS BY CLIENT ID
+    user = user_service_db.get_by_id(user_id=user_id)
+
+    # # ELSE RETURN ALL USERS BY CREATOR ID
+    # else:
+    #     user = user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id)
+
+    # IF USER NOT FOUND RETURN NOT FOUND
     if not user:
         return response(False, {'msg': 'user by this id not found'}, 404)
 
@@ -51,15 +57,14 @@ def user_get_by_id(user_id):
 
 # GET ALL USER
 def user_get_all():
-    # GET AND RETURN USERS BY CREATOR ID
-    users = user_service_db.get_all_by_creator_id(creator_id=g.user_id)
+    users = user_service_db.get_all()
     return response(True, users, 200)
 
 
 # UPDATE USER
 def user_update(user_id, user_name, first_name, last_name):
     # GET USER BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
-    user = user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id)
+    user = user_service_db.get_by_id(user_id=user_id)
     if not user:
         return response(False, {'msg': 'user by this id not found'}, 404)
 
@@ -68,20 +73,19 @@ def user_update(user_id, user_name, first_name, last_name):
         return response(False, {'msg': 'user name is taken'}, 409)
 
     # ELSE CHANGE AND UPDATE DB AND RETURN RESPONSE OK
-    user_service_db.update(user_id=user_id, creator_id=g.user_id, user_name=user_name,
+    user_service_db.update(user_id=user_id, user_name=user_name,
                            first_name=first_name, last_name=last_name)
     return response(True, {'msg': 'user successfully update'}, 200)
 
 
-# DELETE USER BY ID
+# DELETE USER BY ID CLIENT ID
 def user_delete(user_id):
-    # GET USER BY ID AND VERIFY DIES EXIST IF NO RETURN NOT FOUND
-    if not user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id):
-        return response(False, {"msg": "user by this id not found"}, 404)
+    # IF CLIENT EXIST FIND USER BY ID AND THIS CLIENT ID
+    # GET AND VERIFY IF CLiENT AND USER BY ID NOT FOUND RETURN NOT FOUND
+    if not user_service_db.get_by_id(user_id=user_id):
+        return response(False, {'msg': 'user not found'}, 404)
 
-    # GETS ALL CONNECTIONS WITH ROLE AND REMOVE
-    user_role_service_db.delete_all_by_user_id(user_id=user_id)
-
-    # REMOVE THIS USER FROM DB
-    user_service_db.delete(user_id=user_id, creator_id=g.user_id)
+    # REMOVE THIS USER FROM DB AND THIS USER AND PERMISSION BIND
+    user_service_db.delete(user_id=user_id)
+    user_permission_service_db.delete_all_by_user_id(user_id=user_id)
     return response(True, {'msg': "this user successfully deleted"}, 200)

@@ -1,8 +1,11 @@
 from flask import request, g
 from . import user_service
-from ..middlewares import auth_middleware, role_middleware
+from src.auth import auth_middleware
 from flask_expects_json import expects_json
 from src.user import user_validator
+from src.permission import permission_middleware
+from src.client import client_middleware
+from src.firm import firm_middleware
 
 
 # CREATE NEW USER OR REGISTRATION
@@ -16,15 +19,19 @@ def create_user():
 
 # CREATE USER TICKET
 @auth_middleware.check_authorize
-@role_middleware.check_roles(["super_admin", "owner", "director"])
+@permission_middleware.check_permission("user_edit")
+@client_middleware.check_client(required=False)
+@firm_middleware.check_firm(required=False)
 def create_user_ticket():
-    res = user_service.create_user_ticket(creator_id=g.user_id)
+    res = user_service.create_user_ticket(creator_id=g.user_id, client_id=g.client_id, firm_id=g.firm_id)
     return res
 
 
 # GET USER BY ID
 @auth_middleware.check_authorize
-@role_middleware.check_roles(["super_admin", "owner", "director"])
+@permission_middleware.check_permission("user_get")
+@client_middleware.check_client(required=False)
+@firm_middleware.check_firm(required=False)
 def user_get_by_id(user_id):
     res = user_service.user_get_by_id(user_id=user_id)
     return res
@@ -32,7 +39,9 @@ def user_get_by_id(user_id):
 
 # GET ALL USER
 @auth_middleware.check_authorize
-@role_middleware.check_roles(["super_admin", "owner", "director"])
+@permission_middleware.check_permission("user_get")
+@client_middleware.check_client(required=False)
+@firm_middleware.check_firm(required=False)
 def user_get():
     res = user_service.user_get_all()
     return res
@@ -40,7 +49,6 @@ def user_get():
 
 # UPDATE USER BY ID
 @auth_middleware.check_authorize
-@role_middleware.check_roles(["super_admin", "owner", "director", "accountant"])
 @expects_json(user_validator.user_schema)
 def user_update():
     req = request.get_json()
@@ -51,7 +59,9 @@ def user_update():
 
 # DELETE USER BY ID
 @auth_middleware.check_authorize
-@role_middleware.check_roles(["super_admin", "owner", "director", "accountant"])
-def user_delete():
-    res = user_service.user_delete(user_id=g.user_id)
+@permission_middleware.check_permission("user_edit")
+@client_middleware.check_client(required=False)
+@firm_middleware.check_firm(required=False)
+def user_delete(user_id):
+    res = user_service.user_delete(user_id=user_id)
     return res

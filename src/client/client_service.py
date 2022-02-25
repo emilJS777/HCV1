@@ -1,4 +1,3 @@
-from src.firm_user import firm_user_service_db
 from src.firm import firm_service_db
 from . import client_service_db
 from src._response import response
@@ -61,10 +60,6 @@ def client_delete(client_id):
     # GET ALL FIRMS BY THIS CLIENT ID AND REMOVE ALL
     for firm_id in firm_service_db.get_all_ids_by_client_id(client_id=client_id):
         firm_service_db.delete(firm_id=firm_id, client_id=client_id)
-
-        # GET ALL FIRM_USER LINKS AND REMOVE
-        for user_id in firm_user_service_db.get_user_ids_by_firm_id(firm_id=firm_id):
-            firm_user_service_db.delete_bind(firm_id=firm_id, user_id=user_id)
 
     # REMOVE THIS CLIENT FROM DB
     client_service_db.delete(client_id=client_id, creator_id=g.user_id)

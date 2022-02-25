@@ -1,37 +1,34 @@
-from . import firm_user_service
+from . import category_firm_service
 from flask import request
 from src.auth import auth_middleware
 from src.client import client_middleware
 from src.permission import permission_middleware
 
 
-# CREATE BIND FIRM USER
+# CREATE BIND CATEGORY FIRM
 @auth_middleware.check_authorize
 @client_middleware.check_client(required=True)
 @permission_middleware.check_permission("firm_edit")
-@permission_middleware.check_permission("user_edit")
-def bind_firm_user():
+def bind_category_firm():
     req = request.get_json()
-    res = firm_user_service.bind_firm_user(firm_id=req['firm_id'], user_id=req['user_id'])
+    res = category_firm_service.bind_category_firm(category_id=req['category_id'], firm_id=req['firm_id'])
     return res
 
 
-# DELETE BIND FIRM USER
+# DELETE BIND CATEGORY FIRM
 @auth_middleware.check_authorize
 @client_middleware.check_client(required=True)
 @permission_middleware.check_permission("firm_edit")
-@permission_middleware.check_permission("user_edit")
-def unbind_firm_user():
+def unbind_category_firm():
     req = request.get_json()
-    res = firm_user_service.unbind_firm_user(firm_id=req['firm_id'], user_id=req['user_id'])
+    res = category_firm_service.unbind_category_firm(category_id=req['category_id'], firm_id=req['firm_id'])
     return res
 
 
-# GET USER IDS BY FIRM ID
+# GET FIRM IDS BY CATEGORY ID
 @auth_middleware.check_authorize
 @client_middleware.check_client(required=True)
 @permission_middleware.check_permission("firm_get")
-@permission_middleware.check_permission("user_get")
-def get_user_ids_by_firm_id(firm_id: int):
-    res = firm_user_service.get_user_ids_by_firm_id(firm_id=firm_id)
+def get_firm_ids_by_category_id(category_id: int):
+    res = category_firm_service.get_firm_ids_by_category_id(category_id=category_id)
     return res

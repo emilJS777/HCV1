@@ -7,17 +7,22 @@ from src.user import user_service_db
 
 # CHECk CLIENT
 # MIDDLEWARE FOR ASSIGNMENT g.client_id
-def check_client(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        # FIND CLIENT ID BY g.user_id
-        # IF NOT CLIENT ID OR NOT CLIENT RETURN NOT FOUND
-        user = user_service_db.get_by_id(user_id=g.user_id)
-        if not user or not client_service_db.get_by_id(client_id=user.client_id):
-            return response(False, {'msg': 'client not found'}, 404)
+def check_client(required: bool):
+    def decoration(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            # GET CLIENT ID FROM G USER ID
+            client_id: int = user_service_db.get_by_id(user_id=g.user_id).client_id
 
-        # IF CLIENT ID FOUND g.client_id ASSIGN CLIENT ID
-        g.client_id = user.client_id
-        return f(*args, **kwargs)
+            # VERIFY IF CHECK CLIEnt ARG REQUIRED IS TRUE AND CLIENT ID NOT FOUND RETURN FORBIDDEN
+            if required and not client_id or client_id and not client_service_db.get_by_id(client_id=client_id):
+                return response(False, {'msg': 'client not found'}, 403)
 
-    return decorated_function
+            # ELSE ASSIGN G CLIENT ID OR ASSIGN NONE AND NEXT
+            else:
+                g.client_id = client_id or None
+
+            return f(*args, **kwargs)
+
+        return decorated_function
+    return decoration
