@@ -4,13 +4,13 @@ from jsonschema import ValidationError
 
 
 # RESPONSE ON SUCCESSFUL CONTROLLER EXECUTION
-def response(success, obj, status_code):
+def response(success, obj, status_code) -> make_response:
     return make_response(jsonify(success=success, obj=obj), status_code)
 
 
 # BAD REQUEST EXCEPT
 @app.errorhandler(400)
-def bad_request(error):
+def bad_request(error) -> make_response:
     if isinstance(error.description, ValidationError):
         original_error = error.description
         return make_response(jsonify(success=False, obj={'msg': original_error.message}), 400)

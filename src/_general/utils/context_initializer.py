@@ -16,7 +16,8 @@ class Initializer:
                    {'name': 'user_get', 'title': 'get user'}, {'name': 'user_edit', 'title': 'redactor user'},
                    {'name': 'bind_user_client', 'title': 'link user to client'},
                    {'name': 'firm_get', 'title': 'get firm'}, {'name': 'firm_edit', 'title': 'redactor firm'},
-                   {'name': 'bind_user_firm', 'title': 'link user to firm'}]
+                   {'name': 'bind_user_firm', 'title': 'link user to firm'},
+                   {'name': 'position_edit', 'title': 'edit position'}]
 
     def __init__(self):
         user_ticket = self.first_ticket_initializer()

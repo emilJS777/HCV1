@@ -1,16 +1,15 @@
 from src import db
 
 
-class Permission(db.Model):
+class PermissionCategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), unique=True, nullable=False)
-    title = db.Column(db.String(50), unique=True, nullable=False)
-    category_id = db.Column(db.Integer)
+    title = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.String(120), nullable=True)
 
     # CONSTRUCTOR
-    def __init__(self, name, title):
-        self.name = name
+    def __init__(self, title: str, description: str):
         self.title = title
+        self.description = description
 
     # SAVE DB SELF
     def save_db(self):

@@ -6,13 +6,11 @@ from sqlalchemy import or_, and_
 from typing import List
 
 
-def create(ticket, name, password, first_name, last_name):
+def create(ticket, name, password):
     # CREATE AND RETURN NEW USER
     new_user = User.query.filter_by(ticket=ticket).first()
     new_user.name = name
     new_user.password_hash = generate_password_hash(password)
-    new_user.first_name = first_name
-    new_user.last_name = last_name
     new_user.ticket = None
     new_user.update_db()
     return new_user
@@ -25,12 +23,10 @@ def create_ticket(creator_id):
     return user
 
 
-def update(user_id, user_name, first_name, last_name):
+def update(user_id: int, full_name: str) -> User:
     # GET USER BY ID AND CREAtOR ID & UPDATE NAME
-    user = User.query.filter_by(id=user_id).first()
-    user.name = user_name
-    user.first_name = first_name
-    user.last_name = last_name
+    user: User = User.query.filter_by(id=user_id).first()
+    user.full_name = full_name
     user.update_db()
     return user
 

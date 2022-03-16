@@ -7,7 +7,7 @@ from flask import g
 
 
 # CREATE NEW USER
-def create_user(ticket, user_name, password, first_name, last_name):
+def create_user(ticket, user_name, password):
     # IF TICKET NOT FOUND RETURN NOT FOUND
     if not user_service_db.get_by_ticket(ticket=ticket):
         return response(False, {'msg': 'ticket not found'}, 404)
@@ -17,8 +17,7 @@ def create_user(ticket, user_name, password, first_name, last_name):
         return response(False, {'msg': 'user name is taken'}, 409)
 
     # ELSE USER BY THIS NAME SAVE
-    new_user = user_service_db.create(ticket=ticket, name=user_name, password=password,
-                                      first_name=first_name, last_name=last_name)
+    new_user = user_service_db.create(ticket=ticket, name=user_name, password=password)
     return response(True, {'msg': 'new user by id {} successfully created'.format(new_user.id)}, 200)
 
 
@@ -43,16 +42,13 @@ def user_get_by_id(user_id):
     # ELSE IF CLIENT ID EXIST RETURN ALL USERS BY CLIENT ID
     user = user_service_db.get_by_id(user_id=user_id)
 
-    # # ELSE RETURN ALL USERS BY CREATOR ID
-    # else:
-    #     user = user_service_db.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id)
-
     # IF USER NOT FOUND RETURN NOT FOUND
     if not user:
         return response(False, {'msg': 'user by this id not found'}, 404)
 
     # ELSE RETURN THIS USER AND STATUS OK
-    return response(True, {'name': user.name, 'first_name': user.first_name, 'last_name': user.last_name}, 200)
+    return response(True, {'id': user.id, 'name': user.name, 'full_name': user.full_name,
+                           'position_id': user.position_id}, 200)
 
 
 # GET ALL USER
@@ -62,19 +58,14 @@ def user_get_all():
 
 
 # UPDATE USER
-def user_update(user_id, user_name, first_name, last_name):
+def user_update(user_id: int, full_name: str):
     # GET USER BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
     user = user_service_db.get_by_id(user_id=user_id)
     if not user:
-        return response(False, {'msg': 'user by this id not found'}, 404)
-
-    # IF USER BY ThiS NAME FOUND RETURN CONFLICT
-    if user_service_db.get_by_name(name=user_name):
-        return response(False, {'msg': 'user name is taken'}, 409)
+        return response(False, {'msg': 'user not found'}, 404)
 
     # ELSE CHANGE AND UPDATE DB AND RETURN RESPONSE OK
-    user_service_db.update(user_id=user_id, user_name=user_name,
-                           first_name=first_name, last_name=last_name)
+    user_service_db.update(user_id=user_id, full_name=full_name)
     return response(True, {'msg': 'user successfully update'}, 200)
 
 

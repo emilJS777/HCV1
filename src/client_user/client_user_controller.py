@@ -7,7 +7,8 @@ from flask_expects_json import expects_json
 
 # GET USER IDS BY CLIENT ID
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("bind_user_client")
+@permission_middleware.check_permission("user_get")
+@permission_middleware.check_permission("client_get")
 def get_user_ids_by_client_id(client_id):
     res = client_user_service.get_user_ids_by_client_id(client_id=client_id)
     return res
@@ -15,7 +16,8 @@ def get_user_ids_by_client_id(client_id):
 
 # BIND LINK CLIENT AND USER BY ID
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("bind_user_client")
+@permission_middleware.check_permission("user_edit")
+@permission_middleware.check_permission("client_edit")
 @expects_json(client_user_validator.client_user_schema)
 def bind_client_user():
     req = request.get_json()
@@ -25,7 +27,8 @@ def bind_client_user():
 
 # UNBIND CLIENT USER
 @auth_middleware.check_authorize
-@permission_middleware.check_permission("bind_user_client")
+@permission_middleware.check_permission("user_edit")
+@permission_middleware.check_permission("client_edit")
 @expects_json(client_user_validator.client_user_schema)
 def unbind_client_user():
     req = request.get_json()

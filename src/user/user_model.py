@@ -6,8 +6,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(18), nullable=True)
     password_hash = db.Column(db.String(200), nullable=True)
-    first_name = db.Column(db.String(15), nullable=True)
-    last_name = db.Column(db.String(15), nullable=True)
+    full_name = db.Column(db.String(80), nullable=True)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow())
     ticket = db.Column(db.String(50), nullable=True, unique=True)
 
@@ -15,6 +14,7 @@ class User(db.Model):
     creator_id = db.Column(db.Integer)
     client_id = db.Column(db.Integer)
     firm_id = db.Column(db.Integer)
+    position_id = db.Column(db.Integer)
 
     # CONSTRUCTOR
     def __init__(self, ticket, creator_id):
