@@ -4,7 +4,7 @@ from . import permission_category_controller
 # CREATE
 app.add_url_rule(
     "/api/permission_category",
-    view_func=permission_category_controller.create,
+    view_func=permission_category_controller.create_permission_category,
     methods=["POST"]
 )
 
@@ -12,7 +12,7 @@ app.add_url_rule(
 # UPDATE
 app.add_url_rule(
     "/api/permission_category/<int:permission_category_id>",
-    view_func=permission_category_controller.update,
+    view_func=permission_category_controller.update_permission_category,
     methods=["PUT"]
 )
 
@@ -20,7 +20,7 @@ app.add_url_rule(
 # DELETE
 app.add_url_rule(
     "/api/permission_category/<int:permission_category_id>",
-    view_func=permission_category_controller.delete,
+    view_func=permission_category_controller.delete_permission_category,
     methods=["DELETE"]
 )
 
@@ -28,7 +28,7 @@ app.add_url_rule(
 # GET BY ID
 app.add_url_rule(
     "/api/permission_category/<int:permission_category_id>",
-    view_func=permission_category_controller.get_by_id,
+    view_func=permission_category_controller.get_by_id_permission_category,
     methods=["GET"]
 )
 
@@ -36,7 +36,7 @@ app.add_url_rule(
 # GET ALL
 app.add_url_rule(
     "/api/permission_category",
-    view_func=permission_category_controller.get_all,
+    view_func=permission_category_controller.get_by_id_permission_category,
     methods=["GET"]
 )
 
