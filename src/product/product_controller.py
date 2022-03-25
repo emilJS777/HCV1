@@ -51,3 +51,10 @@ def get_all_ids_product() -> dict:
     res: dict = product_service.get_all_ids()
     return res
 
+
+# GET ALL IDS BY STORAGE ID
+@auth_middleware.check_authorize
+@client_middleware.check_client(required=True)
+def get_all_ids_product_by_storage_id(storage_id: int) -> dict:
+    res: dict = product_service.get_all_ids_by_storage_id(storage_id)
+    return res

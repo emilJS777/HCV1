@@ -20,9 +20,8 @@ class Product(db.Model):
     hcb_coefficient = db.Column(db.String(30), nullable=False)
     accounting_method = db.Column(db.String(30), nullable=False)
 
+    storage_id = db.Column(db.Integer, nullable=False)
     client_id = db.Column(db.Integer, nullable=False)
-    firm_id = db.Column(db.Integer)
-
     creation_date = db.Column(db.DateTime, default=datetime.utcnow())
 
     # CONSTRUCTOR
@@ -39,8 +38,8 @@ class Product(db.Model):
                  wholesale_price_other_currency: str,
                  hcb_coefficient: str,
                  accounting_method: str,
-                 client_id: int,
-                 firm_id: int):
+                 storage_id: int,
+                 client_id: int):
         self.title = title
         self.code = code
         self.unit_measurement = unit_measurement
@@ -56,8 +55,8 @@ class Product(db.Model):
         self.hcb_coefficient = hcb_coefficient
         self.accounting_method = accounting_method
 
+        self.storage_id = storage_id
         self.client_id = client_id
-        self.firm_id = firm_id
 
     # SAVE DB SELF
     def save_db(self):

@@ -9,13 +9,13 @@ product_schema = {
         "group": {"type": "string", "minLength": 1, "maxLength": 30},
         "atgaa_classifier": {"type": "string", "minLength": 1, "maxLength": 30},
         "account": {"type": "string", "minLength": 1, "maxLength": 30},
-        "wholesale_price": {"type": "float"},
-        "retail_price": {"type": "float"},
+        "wholesale_price": {"type": "number"},
+        "retail_price": {"type": "number"},
         "other_currency": {"type": "string", "minLength": 1, "maxLength": 30},
         "wholesale_price_other_currency": {"type": "string", "minLength": 1, "maxLength": 30},
         "hcb_coefficient": {"type": "string", "minLength": 1, "maxLength": 30},
         "accounting_method": {"type": "string", "minLength": 1, "maxLength": 30},
-        "firm_id": {"type": "number"},
+        "storage_id": {"type": "number"},
       },
     "required": ["title",
                  "code",
@@ -27,5 +27,6 @@ product_schema = {
                  "other_currency",
                  "wholesale_price_other_currency",
                  "hcb_coefficient",
-                 "accounting_method"]
+                 "accounting_method",
+                 "storage_id"]
 }

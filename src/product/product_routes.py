@@ -15,3 +15,6 @@ app.add_url_rule("/api/product/<int:product_id>", view_func=product_controller.g
 
 # GET ALL IDS
 app.add_url_rule("/api/product", view_func=product_controller.get_all_ids_product, methods=["GET"])
+
+# GET ALL IDS BY STORAGE ID
+app.add_url_rule("/api/product_by_storage_id/<int:storage_id>", view_func=product_controller.get_all_ids_product_by_storage_id, methods=["GET"])

@@ -1,16 +1,23 @@
 from . import product_service_db
 from src._response import response
 from typing import List
+from src.storage import storage_service_db
 
 
 # CREATE
 def create(body: dict) -> dict:
+    if not storage_service_db.get_by_id(storage_id=body['storage_id']):
+        return response(False, {'msg': 'storage not found'}, 404)
+
     product_service_db.create(body)
     return response(True, {'msg': 'product successfully created'}, 200)
 
 
 # UPDATE
 def update(product_id: int, body: dict) -> dict:
+    if not storage_service_db.get_by_id(storage_id=body['storage_id']):
+        return response(False, {'msg': 'storage not found'}, 404)
+
     if not product_service_db.get_by_id(product_id):
         return response(False, {'msg': 'product not found'}, 404)
 
@@ -49,10 +56,16 @@ def get_by_id(product_id: int) -> dict:
                            'wholesale_price_other_currency': product.wholesale_price_other_currency,
                            'hcb_coefficient': product.hcb_coefficient,
                            'accounting_method': product.accounting_method,
-                           'firm_id': product.firm_id}, 200)
+                           'storage_id': product.storage_id}, 200)
 
 
 # GET ALL IDS
 def get_all_ids() -> dict:
     product_ids: List[int] = product_service_db.get_all_ids()
+    return response(True, product_ids, 200)
+
+
+# GET ALL IDS BY STORAGE ID
+def get_all_ids_by_storage_id(storage_id: int) -> dict:
+    product_ids: List[int] = product_service_db.get_all_ids_by_storage_id(storage_id)
     return response(True, product_ids, 200)

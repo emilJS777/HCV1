@@ -15,5 +15,6 @@ from .firm_user import firm_user_routes
 from .position import position_routes
 from .user_position import user_position_routes
 from .permission_category import permission_category_routes
+from .storage import storage_routes
 from .product import product_routes
 
