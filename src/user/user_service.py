@@ -2,7 +2,6 @@ from src.client_user import client_user_service_db
 from src.user_permission import user_permission_service_db
 from . import user_service_db
 from src._response import response
-from src.firm_user import firm_user_service_db
 from flask import g
 
 
@@ -30,9 +29,9 @@ def create_user_ticket(creator_id, client_id, firm_id):
     if client_id:
         client_user_service_db.create_bind(client_id=client_id, user_id=user.id)
 
-    # IF FIRM ID EXIST BIND NEW USER AND FIRM ID
-    if firm_id:
-        firm_user_service_db.bind_firm_user(firm_id=firm_id, user_id=user.id)
+    # # IF FIRM ID EXIST BIND NEW USER AND FIRM ID
+    # if firm_id:
+    #     firm_user_service_db.bind_firm_user(firm_id=firm_id, user_id=user.id)
 
     return response(True, {'id': user.id, 'ticket': user.ticket}, 200)
 
