@@ -1,4 +1,5 @@
 from . import UserPermissionServiceDb
+from src.Permission import PermissionServiceDb
 from src.User import UserServiceDb
 from src.Firm import FirmServiceDb
 from src._response import response
@@ -70,8 +71,13 @@ def get_permissions_by_user_id(user_id: int, firm_id: int = None) -> dict:
     if not UserServiceDb.get_by_id(user_id):
         return response(False, {'msg': 'user not found'}, 404)
 
-    permission_ids: List[int] = UserPermissionServiceDb.get_permission_ids_by_user_id_firm_id(
+    permission_list: List[dict] = []
+
+    for permission_id in UserPermissionServiceDb.get_permission_ids_by_user_id_firm_id(
         user_id=user_id,
         firm_id=firm_id
-    )
-    return response(True, permission_ids, 200)
+    ):
+        permission: PermissionServiceDb.Permission = PermissionServiceDb.get_by_id(permission_id)
+        permission_list.append({'id': permission.id, 'name': permission.name, 'title': permission.title})
+
+    return response(True, permission_list, 200)
