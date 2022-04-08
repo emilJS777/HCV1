@@ -25,7 +25,7 @@ def update(client_id: int, name: str, max_count_firms: int, description: str):
     return client
 
 
-def delete(client_id: int):
+def delete(client_id: int) -> Client:
     # GET CLIENT BY ID AND CREATOR ID. DELETE AND RETURN
     client = Client.query.filter_by(id=client_id, parent_id=g.client_id).first()
     client.delete_db()

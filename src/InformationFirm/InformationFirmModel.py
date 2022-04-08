@@ -1,15 +1,15 @@
 from src import db
 
 
-class CategoryFirm(db.Model):
+class InformationFirm(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, nullable=False)
+    information_id = db.Column(db.Integer, nullable=False)
     firm_id = db.Column(db.Integer, nullable=False)
     client_id = db.Column(db.Integer, nullable=False)
 
     # CONSTRUCTOR
-    def __init__(self, category_id: int, firm_id: int, client_id: int):
-        self.category_id = category_id
+    def __init__(self, information_id: int, firm_id: int, client_id: int):
+        self.information_id = information_id
         self.firm_id = firm_id
         self.client_id = client_id
 

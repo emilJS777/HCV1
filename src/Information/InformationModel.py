@@ -1,7 +1,7 @@
 from src import db
 
 
-class Category(db.Model):
+class Information(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(120), nullable=True)
@@ -27,3 +27,4 @@ class Category(db.Model):
     @staticmethod
     def update_db():
         db.session.commit()
+

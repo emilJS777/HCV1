@@ -1,5 +1,5 @@
 from . import FirmServiceDb
-from src.CategoryFirm import CategoryFirmServiceDb
+from src.InformationFirm import InformationFirmServiceDb
 from src.Client import ClientServiceDb
 from src._response import response
 from flask import g

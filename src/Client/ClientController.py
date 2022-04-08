@@ -26,11 +26,11 @@ def client_post():
 @PermissionMiddleware.check_permission("client_edit")
 @expects_json(ClientValidator.client_schema)
 def client_update(client_id):
-    req = request.get_json()
-    res = ClientService.client_update(client_id=client_id,
-                                      name=req['name'],
-                                      description=req["description"],
-                                      max_count_firms=req['max_count_firms'])
+    req: dict = request.get_json()
+    res: dict = ClientService.client_update(client_id=client_id,
+                                            name=req['name'],
+                                            description=req["description"],
+                                            max_count_firms=req['max_count_firms'])
     return res
 
 
@@ -38,7 +38,7 @@ def client_update(client_id):
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("client_edit")
-def client_delete(client_id):
+def client_delete(client_id: int):
     res = ClientService.client_delete(client_id=client_id)
     return res
 
