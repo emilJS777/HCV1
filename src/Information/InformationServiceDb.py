@@ -3,9 +3,14 @@ from flask import g
 from typing import List
 
 
-def create(title: str, description: str) -> Information:
+def create(title: str, description: str, unit_id: int) -> Information:
     # CREATE NEW information
-    information: Information = Information(title=title, description=description, client_id=g.client_id)
+    information: Information = Information(
+        title=title,
+        description=description,
+        unit_id=unit_id,
+        client_id=g.client_id
+    )
     information.save_db()
     return information
 
@@ -17,11 +22,12 @@ def delete(information_id: int) -> Information:
     return information
 
 
-def update(information_id: int, title: str, description: str) -> Information:
+def update(information_id: int, title: str, description: str, unit_id: int) -> Information:
     # UPDATE information BY ID
     information: Information = Information.query.filter_by(id=information_id, client_id=g.client_id).first()
     information.title = title
     information.description = description
+    information.unit_id = unit_id
     information.update_db()
     return information
 
@@ -38,7 +44,10 @@ def get_all() -> List:
     arr: List = []
 
     for information in informations:
-        arr.append({'id': information.id, 'title': information.title, 'description': information.description})
+        arr.append({'id': information.id,
+                    'title': information.title,
+                    'description': information.description,
+                    'unit_id': information.unit_id})
     return arr
 
 

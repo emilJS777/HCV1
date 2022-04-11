@@ -15,7 +15,8 @@ def information_create():
     req = request.get_json()
     res = InformationService.create_information(
         title=req['title'],
-        description=req['description']
+        description=req['description'],
+        unit_id=req['unit_id']
     )
     return res
 
@@ -39,7 +40,8 @@ def information_update(information_id: int):
     res = InformationService.update_information(
         information_id=information_id,
         title=req['title'],
-        description=req['description']
+        description=req['description'],
+        unit_id=req['unit_id']
     )
     return res
 

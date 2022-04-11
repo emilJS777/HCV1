@@ -3,17 +3,27 @@ from .InformationServiceDb import Information
 from src._response import response
 from typing import List
 from src.InformationFirm import InformationFirmServiceDb
+from src.Unit import UnitController
 
 
 # CREATE information
-def create_information(title: str, description: str):
+def create_information(title: str, description: str, unit_id: int):
     # GET information BY TITLE AND VERIFY IF EXIST RETURN CONFLICT
     if InformationServiceDb.get_by_title(title=title):
         return response(False, {'msg': f'Information by title {title} exist'}, 409)
 
-    # ELSE SAVE NEW information AND RETURN
-    InformationServiceDb.create(title=title, description=description)
-    return response(True, {'msg': 'new Information successfully created'}, 200)
+    # GET UNIT BY ID IF NOT FOUND RETURN NOT FOUND
+    for unit in UnitController.units:
+        if unit['id'] == unit_id:
+            # ELSE SAVE NEW information AND RETURN
+            InformationServiceDb.create(
+                title=title,
+                description=description,
+                unit_id=unit_id
+            )
+            return response(True, {'msg': 'new Information successfully created'}, 200)
+
+    return response(False, {'msg': 'unit not found'}, 404)
 
 
 # DELETE information
@@ -35,14 +45,24 @@ def delete_information(information_id: int):
 
 
 # UPDATE information
-def update_information(information_id: int, title: str, description: str):
+def update_information(information_id: int, title: str, description: str, unit_id: int):
     # GET information BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     if not InformationServiceDb.get_by_id(information_id=information_id):
         return response(False, {'msg': f'Information by id {information_id} not found'}, 404)
 
-    # ELSE UPDATE information BY ID AND RETURN OK
-    InformationServiceDb.update(information_id=information_id, title=title, description=description)
-    return response(True, {'msg': 'Information successfully updated!'}, 200)
+    # GET UNIT BY ID IF NOT FOUND RETURN NOT FOUND
+    for unit in UnitController.units:
+        if unit['id'] == unit_id:
+            # ELSE UPDATE information BY ID AND RETURN OK
+            InformationServiceDb.update(
+                information_id=information_id,
+                title=title,
+                description=description,
+                unit_id=unit_id
+            )
+            return response(True, {'msg': 'Information successfully updated!'}, 200)
+
+    return response(False, {'msg': 'unit not found'}, 404)
 
 
 # GET ALL information
@@ -59,4 +79,7 @@ def get_information_by_id(information_id: int):
         return response(False, {'msg': f'Information by id {information_id} not found'}, 404)
 
     # ELSE RETURN information & OK
-    return response(True, {'id': information.id, 'title': information.title, 'description': information.description}, 200)
+    return response(True, {'id': information.id,
+                           'title': information.title,
+                           'description': information.description,
+                           'unit_id': information.unit_id}, 200)

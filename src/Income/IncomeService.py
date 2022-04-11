@@ -1,31 +1,41 @@
 from . import IncomeServiceDb
 from src.Firm import FirmServiceDb
+from src.Information import InformationServiceDb
 from src._response import response
 from typing import List
 
 
 # CREATE
-def create(for_what: str, price: float, firm_id: int) -> dict:
-    # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
-    if not FirmServiceDb.get_by_id(firm_id):
-        return response(False, {'msg': 'firm not found'}, 404)
+def create(price: float, firm_id: int, information_id: int, income_type_id: int) -> dict:
+    # GET FIRM BY ID & INFORMATION BY ID. IF NOT FOUND RETURN NOT FOUND
+    if not FirmServiceDb.get_by_id(firm_id) or not InformationServiceDb.get_by_id(information_id):
+        return response(False, {'msg': 'firm and/or information not found'}, 404)
 
-    IncomeServiceDb.create(
-        for_what=for_what,
-        price=price,
-        firm_id=firm_id
-    )
-    return response(True, {'msg': 'income successfully created'}, 200)
+    # GET INCOME TYPE BY ID AND VEriFY IF EXIST CREATE INCOME AND RETURN OK
+    for income_type in IncomeServiceDb.income_types:
+        if income_type['id'] == income_type_id:
+
+            IncomeServiceDb.create(
+                price=price,
+                firm_id=firm_id,
+                information_id=information_id,
+                income_type_id=income_type_id
+            )
+            return response(True, {'msg': 'income successfully created'}, 200)
+
+    # ELSE RETURN INCOME type NOT FOUND
+    return response(False, {'msg': 'income type not found'}, 404)
 
 
 # GET ALL IDS BY FIRM ID
-def get_all_ids_by_firm_id(firm_id: int) -> dict:
+def get_all_ids_by_filter(firm_id: int, income_type_id: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
         return response(False, {'msg': 'firm not found'}, 404)
 
-    incomes_ids: List[int] = IncomeServiceDb.get_all_ids_by_firm_id(
-        firm_id=firm_id
+    incomes_ids: List[int] = IncomeServiceDb.get_all_ids_by_filter(
+        firm_id=firm_id,
+        income_type_id=income_type_id
     )
     return response(True, incomes_ids, 200)
 
@@ -36,8 +46,26 @@ def get_by_id(income_id: int) -> dict:
     income: IncomeServiceDb.Income = IncomeServiceDb.get_by_id(income_id)
     if not income:
         return response(False, {'msg': 'income not found'}, 404)
+    else:
+        return response(True, {'id': income.id,
+                               'price': income.price,
+                               'firm_id': income.firm_id,
+                               'information_id': income.information_id,
+                               'income_type_id': income.income_type_id}, 200)
 
-    return response(True, {'id': income.id,
-                           'for_what': income.for_what,
-                           'price': income.price,
-                           'firm_id': income.firm_id}, 200)
+
+# GET ALL INCOME TYPES
+def get_all_income_types() -> dict:
+    income_types: List[dict] = IncomeServiceDb.income_types
+    return response(True, income_types, 200)
+
+
+# GET INCOME TYPE BY ID
+def get_by_id_income_type(income_type_id: int) -> dict:
+    # GET ALL INCOME TYPES FROM SERVICE DB CATCH BY ID AND RETURN HIM
+    for income_type in IncomeServiceDb.income_types:
+        if income_type['id'] == income_type_id:
+            return response(True, {'id': income_type['id'], 'title': income_type['title']}, 200)
+
+    # IF NOT FOUND RETURN NOT FOUND
+    return response(False, {'msg': 'income type not found'}, 404)

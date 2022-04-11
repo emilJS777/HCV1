@@ -10,6 +10,7 @@ from src.UserPermission import UserPermissionServiceDb
 # from src.ClientUser import client_user_service_db
 # from src.Firm import firm_service_db
 # from src.firm_user import firm_user_service_db
+from typing import List
 
 
 class Initializer:
@@ -71,6 +72,17 @@ class Initializer:
 
         else:
             return ticket
+
+    # # UNITS INITIALIZER
+    # def units_initializer(self):
+    #     from src.Unit import UnitServiceDb
+    #
+    #     for unit in self.units:
+    #         if not UnitServiceDb.get_by_title(unit['title']):
+    #             UnitServiceDb.create(
+    #                 title=unit['title']
+    #             )
+
 
 
 # v.0.1

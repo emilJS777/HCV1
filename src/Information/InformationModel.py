@@ -6,11 +6,13 @@ class Information(db.Model):
     title = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(120), nullable=True)
     client_id = db.Column(db.Integer, nullable=False)
+    unit_id = db.Column(db.Integer, nullable=False)
 
     # CONSTRUCTOR
-    def __init__(self, title: str, description: str, client_id: int):
+    def __init__(self, title: str, description: str, unit_id: int, client_id: int):
         self.title = title
         self.description = description
+        self.unit_id = unit_id
         self.client_id = client_id
 
     # SAVE DB SELF

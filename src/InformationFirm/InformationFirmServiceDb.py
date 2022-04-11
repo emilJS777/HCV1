@@ -46,3 +46,8 @@ def get_information_ids_by_firm_id(firm_id: int) -> List[int]:
         information_firm.append(information_firm.information_id)
     return information_ids
 
+
+# GET BY ID
+def get_by_id(information_firm_id: int) -> InformationFirm:
+    information_firm: InformationFirm = InformationFirm.query.filter_by(id=information_firm_id).first()
+    return information_firm
