@@ -22,7 +22,7 @@ def login(user_name, password):
 def get_profile(user_id: int) -> dict:
     # GET AUTH PROFILE AND RETURN OK
     user: UserServiceDb.User = UserServiceDb.get_by_id(user_id)
-    return response(True, {'id': user.id, 'name': user.name, 'full_name': user.full_name, 'position_id': user.position_id})
+    return response(True, {'id': user.id, 'name': user.name, 'full_name': user.full_name, 'position_id': user.position_id}, 200)
 
 
 def refresh_token():
