@@ -19,6 +19,12 @@ def login(user_name, password):
     return response(True, {'access_token': new_auth.access_token, "refresh_token": new_auth.refresh_token}, 200)
 
 
+def get_profile(user_id: int) -> dict:
+    # GET AUTH PROFILE AND RETURN OK
+    user: UserServiceDb.User = UserServiceDb.get_by_id(user_id)
+    return response(True, {'id': user.id, 'name': user.name, 'fullname': user.full_name, 'position_id': user.position_id})
+
+
 def refresh_token():
     # GET AUTH BY USER ID AND CHECK
     # FOR COMPLIANCE WITH THE REFRESH TOKEN

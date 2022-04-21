@@ -1,11 +1,17 @@
-from . import AuthService
-from flask import request
+from . import AuthService, AuthMiddleware
+from flask import request, g
 from flask_jwt_extended import jwt_required
 
 
 def login():
     req = request.get_json()
     res = AuthService.login(user_name=req['user_name'], password=req['password'])
+    return res
+
+
+@AuthMiddleware.check_authorize
+def get_profile() -> dict:
+    res = AuthService.get_profile(g.user_id)
     return res
 
 
