@@ -1,6 +1,7 @@
 from . import AuthService, AuthMiddleware
 from flask import request, g
 from flask_jwt_extended import jwt_required
+from src.Client import ClientMiddleware
 
 
 def login():
@@ -10,6 +11,7 @@ def login():
 
 
 @AuthMiddleware.check_authorize
+@ClientMiddleware.check_client(required=True)
 def get_profile() -> dict:
     res = AuthService.get_profile(g.user_id)
     return res
