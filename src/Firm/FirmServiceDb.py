@@ -14,6 +14,8 @@ def create(req_body):
         email_address=req_body['email_address'],
         tax_payer_number=req_body['tax_payer_number'],
         state_register_number=req_body['state_register_number'],
+        insurer_account_number=req_body['insurer_account_number'],
+        hvhh=req_body['hvhh'],
         leader_position=req_body['leader_position'],
         leader_full_name=req_body['leader_full_name'],
         accountant_position=req_body['accountant_position'],
@@ -36,6 +38,8 @@ def update(firm_id, req_body):
     firm.email_address = req_body['email_address']
     firm.tax_payer_number = req_body['tax_payer_number']
     firm.state_register_number = req_body['state_register_number']
+    firm.insurer_account_number = req_body['insurer_account_number']
+    firm.hvhh = req_body['hvhh']
     firm.leader_position = req_body['leader_position']
     firm.leader_full_name = req_body['leader_full_name']
     firm.accountant_position = req_body['accountant_position']

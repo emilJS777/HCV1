@@ -24,4 +24,3 @@ from .Expense import ExpenseRoutes
 from .UserPermission import UserPermissionRoutes
 from .Income import IncomeRoutes
 
-from .Unit import UnitRoutes

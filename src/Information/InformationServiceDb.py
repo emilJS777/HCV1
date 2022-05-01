@@ -3,6 +3,9 @@ from flask import g
 from typing import List
 
 
+units: List[dict] = [{'id': 1, 'title': 'հատ'}, {'id': 2, 'title': 'կգ'}, {'id': 3, 'title': 'խորանարդ'}]
+
+
 def create(title: str, description: str, unit_id: int) -> Information:
     # CREATE NEW information
     information: Information = Information(
@@ -55,3 +58,16 @@ def get_by_id(information_id: int) -> Information:
     # GET information BY ID
     information: Information = Information.query.filter_by(id=information_id, client_id=g.client_id).first()
     return information
+
+
+# GET UNIT BY ID
+def unit_get_by_id(unit_id: int) -> dict:
+    for unit in units:
+        if unit['id'] == unit_id:
+            return unit
+
+
+# GET ALL UNITS
+def unit_get_all() -> List[dict]:
+    return units
+

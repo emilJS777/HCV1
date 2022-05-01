@@ -3,7 +3,6 @@ from .InformationServiceDb import Information
 from src._response import response
 from typing import List
 from src.InformationFirm import InformationFirmServiceDb
-from src.Unit import UnitController
 
 
 # CREATE information
@@ -13,7 +12,7 @@ def create_information(title: str, description: str, unit_id: int):
         return response(False, {'msg': f'Information by title {title} exist'}, 409)
 
     # GET UNIT BY ID IF NOT FOUND RETURN NOT FOUND
-    for unit in UnitController.units:
+    for unit in InformationServiceDb.unit_get_all():
         if unit['id'] == unit_id:
             # ELSE SAVE NEW information AND RETURN
             InformationServiceDb.create(
@@ -51,7 +50,7 @@ def update_information(information_id: int, title: str, description: str, unit_i
         return response(False, {'msg': f'Information by id {information_id} not found'}, 404)
 
     # GET UNIT BY ID IF NOT FOUND RETURN NOT FOUND
-    for unit in UnitController.units:
+    for unit in InformationServiceDb.unit_get_all():
         if unit['id'] == unit_id:
             # ELSE UPDATE information BY ID AND RETURN OK
             InformationServiceDb.update(
@@ -67,8 +66,8 @@ def update_information(information_id: int, title: str, description: str, unit_i
 
 # GET ALL information
 def get_all_information():
-    informations: List = InformationServiceDb.get_all()
-    return response(True, informations, 200)
+    information_list: List = InformationServiceDb.get_all()
+    return response(True, information_list, 200)
 
 
 # GET information BY ID
@@ -83,3 +82,18 @@ def get_information_by_id(information_id: int):
                            'title': information.title,
                            'description': information.description,
                            'unit_id': information.unit_id}, 200)
+
+
+# GET UNIT BY ID
+def get_unit_by_id(unit_id: int):
+    unit = InformationServiceDb.unit_get_by_id(unit_id)
+    if not unit:
+        return response(False, {'msg': 'unit not found'}, 404)
+
+    return response(True, {'id': unit['id'], 'title': unit['title']}, 200)
+
+
+# GET ALL UNITS
+def get_unit_all():
+    units = InformationServiceDb.unit_get_all()
+    return response(True, units, 200)

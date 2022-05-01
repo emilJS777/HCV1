@@ -45,7 +45,8 @@ def firm_get_by_id(firm_id):
         return response(False, {'msg': 'Firm by this id not found'}, 404)
 
     # ELSE RETURN THIS FIRM AND STATUS OK
-    return response(True, {'title': firm.title,
+    return response(True, {'id': firm.id,
+                           'title': firm.title,
                            'description': firm.description,
                            'activity_address': firm.activity_address,
                            'legal_address': firm.legal_address,
@@ -53,6 +54,8 @@ def firm_get_by_id(firm_id):
                            'email_address': firm.email_address,
                            'tax_payer_number': firm.tax_payer_number,
                            'state_register_number': firm.state_register_number,
+                           'insurer_account_number': firm.insurer_account_number,
+                           'hvhh': firm.hvhh,
                            'leader_position': firm.leader_position,
                            'leader_full_name': firm.leader_full_name,
                            'accountant_position': firm.accountant_position,
@@ -88,9 +91,9 @@ def firm_delete(firm_id: int):
     if not FirmServiceDb.get_by_id(firm_id=firm_id):
         return response(False, {"msg": "Firm by this id not found"}, 404)
 
-    # IF THIS FIRM TIED TO CATEGORY REMOVE THIS BINDING
-    for category_id in CategoryFirmServiceDb.get_category_ids_by_firm_id(firm_id=firm_id):
-        CategoryFirmServiceDb.delete_bind(category_id=category_id, firm_id=firm_id)
+    # IF THIS FIRM TIED TO INFORMATION REMOVE THIS BINDING
+    for information_id in InformationFirmServiceDb.get_information_ids_by_firm_id(firm_id=firm_id):
+        InformationFirmServiceDb.delete_bind(information_id=information_id, firm_id=firm_id)
 
     # REMOVE THIS FIRM FROM DB
     FirmServiceDb.delete(firm_id=firm_id)

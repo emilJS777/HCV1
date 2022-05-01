@@ -62,3 +62,20 @@ def information_get_all():
 def information_get_by_id(information_id: int):
     res = InformationService.get_information_by_id(information_id=information_id)
     return res
+
+
+# GET UNIT BY ID
+@AuthMiddleware.check_authorize
+@ClientMiddleware.check_client(required=True)
+def get_unit_by_id(unit_id: int):
+    res = InformationService.get_unit_by_id(unit_id)
+    return res
+
+
+# GET UNITS ALL
+@AuthMiddleware.check_authorize
+@ClientMiddleware.check_client(required=True)
+def get_unit_all():
+    res = InformationService.get_unit_all()
+    return res
+

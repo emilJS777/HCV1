@@ -25,3 +25,12 @@ app.add_url_rule("/api/information/<int:information_id>",
 app.add_url_rule("/api/information/<int:information_id>",
                  view_func=InformationController.information_delete,
                  methods=["DELETE"])
+
+
+# GET ALL UNIT LIST
+app.add_url_rule("/api/information/unit", view_func=InformationController.get_unit_all, methods=["GET"])
+
+# GET UNIT BY ID
+app.add_url_rule("/api/information/unit/<int:unit_id>",
+                 view_func=InformationController.get_unit_by_id,
+                 methods=["GET"])
