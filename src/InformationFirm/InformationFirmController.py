@@ -32,6 +32,10 @@ def unbind_information_firm():
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("firm_get")
-def get_firm_ids_by_information_id(information_id: int):
-    res = InformationFirmService.get_firm_ids_by_information_id(information_id=information_id)
+def get_firms_by_information_id():
+    res = InformationFirmService.get_firms_by_information_id(
+        information_id=int(request.args.get('information_id')),
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res

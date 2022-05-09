@@ -62,6 +62,6 @@ def get_by_id(storage_id: int) -> dict:
 
 
 # GET ALL IDS
-def get_all_ids() -> dict:
-    storage_ids: List[int] = StorageServiceDb.get_all_ids()
-    return response(True, storage_ids, 200)
+def get_all(page: int, per_page: int) -> dict:
+    storage_all: dict = StorageServiceDb.get_all(page=page, per_page=per_page)
+    return response(True, storage_all, 200)

@@ -6,10 +6,10 @@ from flask import g
 
 
 # GET USER IDS BY CLIENT ID
-def get_user_ids_by_client_id(client_id):
+def get_users_by_client_id(page: int, per_page: int, client_id: int):
     # GET ALL USERS WHICH CREATE USER
-    user_ids = ClientUserServiceDb.get_user_ids_by_client_id(client_id=client_id)
-    return response(True, user_ids, 200)
+    users = ClientUserServiceDb.get_users_by_client_id(page=page, per_page=per_page, client_id=client_id)
+    return response(True, users, 200)
 
 
 # BIND CLIENT USER

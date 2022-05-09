@@ -46,6 +46,6 @@ def get_by_id(position_id: int) -> dict:
     return response(True, {'id': position.id, 'title': position.title}, 200)
 
 
-def get_all_ids() -> dict:
-    position_ids: List[int] = PositionServiceDb.get_all_ids()
-    return response(True, position_ids, 200)
+def get_all(page: int, per_page: int) -> dict:
+    positions: dict = PositionServiceDb.get_all(page=page, per_page=per_page)
+    return response(True, positions, 200)

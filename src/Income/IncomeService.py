@@ -28,16 +28,18 @@ def create(price: float, firm_id: int, information_id: int, income_type_id: int)
 
 
 # GET ALL IDS BY FIRM ID
-def get_all_ids_by_filter(firm_id: int, income_type_id: int) -> dict:
+def get_all_by_filter(firm_id: int, income_type_id: int, page: int, per_page: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
         return response(False, {'msg': 'firm not found'}, 404)
 
-    incomes_ids: List[int] = IncomeServiceDb.get_all_ids_by_filter(
+    incomes: dict = IncomeServiceDb.get_all_by_filter(
         firm_id=firm_id,
-        income_type_id=income_type_id
+        income_type_id=income_type_id,
+        page=page,
+        per_page=per_page
     )
-    return response(True, incomes_ids, 200)
+    return response(True, incomes, 200)
 
 
 # GET BY ID

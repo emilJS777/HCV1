@@ -51,7 +51,10 @@ def information_update(information_id: int):
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("firm_get")
 def information_get_all():
-    res = InformationService.get_all_information()
+    res = InformationService.get_all_information(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res
 
 

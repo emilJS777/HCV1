@@ -24,9 +24,13 @@ def unbind_user_position(user_id: int, position_id: int) -> dict:
 
 
 # GET USER IDS BY POSITION ID
-def get_user_ids_by_position_id(position_id: int) -> dict:
+def get_users_by_position_id(position_id: int, page: int, per_page: int) -> dict:
     if not PositionServiceDb.get_by_id(position_id):
         return response(False, {'msg': 'Position not found'}, 404)
 
-    user_ids: List[int] = UserPositionServiceDb.get_user_ids_by_position_id(position_id)
-    return response(True, user_ids, 200)
+    users: dict = UserPositionServiceDb.get_users_by_position_id(
+        position_id=position_id,
+        page=page,
+        per_page=per_page
+    )
+    return response(True, users, 200)

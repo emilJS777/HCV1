@@ -24,9 +24,12 @@ def create_income() -> dict:
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("income_get")
-def get_all_income_ids_by_filter() -> dict:
-    res: dict = IncomeService.get_all_ids_by_filter(firm_id=int(request.args.get('firm_id')),
-                                                    income_type_id=int(request.args.get('income_type_id')))
+def get_all_income_by_filter() -> dict:
+    res: dict = IncomeService.get_all_by_filter(firm_id=int(request.args.get('firm_id')),
+                                                income_type_id=int(request.args.get('income_type_id')),
+                                                page=int(request.args.get('page')),
+                                                per_page=int(request.args.get('per_page'))
+                                                )
     return res
 
 

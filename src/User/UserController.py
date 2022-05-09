@@ -40,7 +40,10 @@ def user_get_by_id(user_id) -> dict:
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("user_get")
 def user_get() -> dict:
-    res = UserService.user_get_all()
+    res = UserService.user_get_all(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res
 
 

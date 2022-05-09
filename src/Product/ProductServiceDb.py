@@ -1,6 +1,7 @@
 from .ProductModel import Product
 from flask import g
 from typing import List
+from src._general.helpers.paginate import get_page_items
 
 
 # CREATE
@@ -62,22 +63,28 @@ def get_by_id(product_id: int) -> Product:
 
 
 # GET ALL IDS
-def get_all_ids() -> List[int]:
-    products: List[Product] = Product.query.filter_by(client_id=g.client_id).all()
-    product_ids: List[int] = []
-
-    for product in products:
-        product_ids.append(product.id)
-
-    return product_ids
+def get_all(page: int, per_page: int) -> List[int]:
+    # products: List[Product] = Product.query.filter_by(client_id=g.client_id).all()
+    # product_ids: List[int] = []
+    # for product in products:
+    #     product_ids.append(product.id)
+    # return product_ids
+    return get_page_items(
+        Product.query.filter_by(client_id=g.client_id)
+            .order_by(-Product.id)
+            .paginate(page=page, per_page=per_page)
+    )
 
 
 # GET ALL IDS BY STORAGE ID
-def get_all_ids_by_storage_id(storage_id: int) -> List[int]:
-    products: List[Product] = Product.query.filter_by(client_id=g.client_id, storage_id=storage_id).all()
-    product_ids: List[int] = []
-
-    for product in products:
-        product_ids.append(product.id)
-
-    return product_ids
+def get_all_by_storage_id(storage_id: int, page: int, per_page: int) -> dict:
+    # products: List[Product] = Product.query.filter_by(client_id=g.client_id, storage_id=storage_id).all()
+    # product_ids: List[int] = []
+    # for product in products:
+    #     product_ids.append(product.id)
+    # return product_ids
+    return get_page_items(
+        Product.query.filter_by(client_id=g.client_id, storage_id=storage_id)
+            .order_by(-Product.id)
+            .paginate(page=page, per_page=per_page)
+    )

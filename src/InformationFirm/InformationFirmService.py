@@ -34,13 +34,17 @@ def unbind_information_firm(information_id: int, firm_id: int):
 
 
 # GEt FIRm IDS BY INFORMATION ID
-def get_firm_ids_by_information_id(information_id: int):
+def get_firms_by_information_id(information_id: int, page: int, per_page: int):
     # GET INFORMATION BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     if not InformationServiceDb.get_by_id(information_id=information_id):
         return response(False, {'msg': 'Information not found'}, 404)
 
     # ELSE RETURN FIRM IDS BY INFORMATION ID
     else:
-        firm_ids: List[int] = InformationFirmServiceDb.get_firm_ids_by_information_id(information_id=information_id)
-        return response(True, firm_ids, 200)
+        firms: dict = InformationFirmServiceDb.get_firms_by_information_id(
+            information_id=information_id,
+            page=page,
+            per_page=per_page
+        )
+        return response(True, firms, 200)
     

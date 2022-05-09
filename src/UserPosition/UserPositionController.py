@@ -27,6 +27,10 @@ def unbind_user_position() -> dict:
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("user_get")
-def get_user_ids_by_position_id(position_id: int) -> dict:
-    res: dict = UserPositionService.get_user_ids_by_position_id(position_id=position_id)
+def get_users_by_position_id() -> dict:
+    res: dict = UserPositionService.get_users_by_position_id(
+        position_id=int(request.args.get('position_id')),
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res

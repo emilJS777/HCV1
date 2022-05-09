@@ -1,6 +1,7 @@
 from .ExpenseModel import Expense
 from flask import g
 from typing import List
+from src._general.helpers.paginate import get_page_items
 
 
 # CREATE
@@ -16,14 +17,12 @@ def create(expense_type: str, price: float, firm_id: int) -> Expense:
 
 
 # GET ALL BY FIRM ID
-def get_all_ids_by_firm_id(firm_id: int) -> List[int]:
-    expenses: List[Expense] = Expense.query.filter_by(firm_id=firm_id,
-                                                      client_id=g.client_id).all()
-    expense_ids: List[int] = []
-    for expense in expenses:
-        expense_ids.append(expense.id)
-
-    return expense_ids
+def get_all_by_firm_id(page: int, per_page: int, firm_id: int) -> dict:
+    return get_page_items(
+        Expense.query.filter_by(firm_id=firm_id, client_id=g.client_id)
+        .order_by(-Expense.id)
+        .paginate(page=page, per_page=per_page)
+    )
 
 
 # GET BY ID

@@ -32,10 +32,10 @@ def client_get_by_id(client_id):
 
 
 # GET ALL CLIENT
-def client_get_all():
+def client_get_all(page: int, per_page: int):
     # GET ALL CLIENT IDS BY CREATOR ID
-    client_ids = ClientServiceDb.get_all_ids()
-    return response(True, client_ids, 200)
+    clients = ClientServiceDb.get_all_clients(page=page, per_page=per_page)
+    return response(True, clients, 200)
 
 
 # UPDATE CLIENT

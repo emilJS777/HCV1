@@ -13,6 +13,6 @@ app.add_url_rule("/api/information-firm",
                  methods=["DELETE"])
 
 # GET FIRM IDS BY INFORMATION ID
-app.add_url_rule("/api/information-firm/<int:information_id>",
-                 view_func=InformationFirmController.get_firm_ids_by_information_id,
+app.add_url_rule("/api/information-firm",
+                 view_func=InformationFirmController.get_firms_by_information_id,
                  methods=["GET"])

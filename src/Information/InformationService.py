@@ -65,8 +65,8 @@ def update_information(information_id: int, title: str, description: str, unit_i
 
 
 # GET ALL information
-def get_all_information():
-    information_list: List = InformationServiceDb.get_all()
+def get_all_information(page: int, per_page: int) -> dict:
+    information_list: dict = InformationServiceDb.get_all(page=page, per_page=per_page)
     return response(True, information_list, 200)
 
 

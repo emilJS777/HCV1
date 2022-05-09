@@ -40,6 +40,9 @@ def get_by_id(position_id: int) -> dict:
 
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
-def get_all_ids() -> dict:
-    res: dict = PositionService.get_all_ids()
+def get_all() -> dict:
+    res: dict = PositionService.get_all(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res

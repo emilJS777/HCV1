@@ -1,6 +1,7 @@
 from .InformationFirmModel import InformationFirm
 from flask import g
 from typing import List
+from src._general.helpers.paginate import get_page_items
 
 
 # CREATE INFORMATION FIRM BIND
@@ -20,13 +21,18 @@ def delete_bind(information_id: int, firm_id: int) -> InformationFirm:
 
 
 # GET FIRM IDS BY INFORMATION ID
-def get_firm_ids_by_information_id(information_id: int) -> List[int]:
-    information_firms: List[InformationFirm] = InformationFirm.query.filter_by(information_id=information_id,
-                                                                               client_id=g.client_id).all()
-    firm_ids: List[int] = []
-    for information_firm in information_firms:
-        firm_ids.append(information_firm.firm_id)
-    return firm_ids
+def get_firms_by_information_id(information_id: int, page: int, per_page: int) -> dict:
+    # information_firms: List[InformationFirm] = InformationFirm.query.filter_by(information_id=information_id,
+    #                                                                            client_id=g.client_id).all()
+    # firm_ids: List[int] = []
+    # for information_firm in information_firms:
+    #     firm_ids.append(information_firm.firm_id)
+    # return firm_ids
+    return get_page_items(
+        InformationFirm.query.filter_by(client_id=g.client_id, information_id=information_id)
+            .order_by(-InformationFirm.id)
+            .paginate(page=page, per_page=per_page)
+    )
 
 
 # GET BY Information ID FIRM ID

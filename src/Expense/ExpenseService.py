@@ -19,15 +19,17 @@ def create(expense_type: str, price: float, firm_id: int) -> dict:
 
 
 # GET ALL IDS BY FIRM ID
-def get_all_ids_by_firm_id(firm_id: int) -> dict:
+def get_all_by_firm_id(page: int, per_page: int, firm_id: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
         return response(False, {'msg': 'firm not found'}, 404)
 
-    expenses_ids: List[int] = ExpenseServiceDb.get_all_ids_by_firm_id(
+    expenses: dict = ExpenseServiceDb.get_all_by_firm_id(
+        page=page,
+        per_page=per_page,
         firm_id=firm_id
     )
-    return response(True, expenses_ids, 200)
+    return response(True, expenses, 200)
 
 
 # GET BY ID

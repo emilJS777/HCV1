@@ -11,8 +11,12 @@ from src.Client import ClientMiddleware
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("user_get")
 @PermissionMiddleware.check_permission("client_get")
-def get_user_ids_by_client_id(client_id):
-    res = ClientUserService.get_user_ids_by_client_id(client_id=client_id)
+def get_users_by_client_id():
+    res = ClientUserService.get_users_by_client_id(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page')),
+        client_id=int(request.args.get('client_id'))
+    )
     return res
 
 

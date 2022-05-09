@@ -23,8 +23,12 @@ def create_expense() -> dict:
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("expense_get")
-def get_all_expense_ids_by_firm_id() -> dict:
-    res: dict = ExpenseService.get_all_ids_by_firm_id(firm_id=int(request.args.get('firm_id')))
+def get_all_expenses_by_firm_id() -> dict:
+    res: dict = ExpenseService.get_all_by_firm_id(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page')),
+        firm_id=int(request.args.get('firm_id'))
+    )
     return res
 
 

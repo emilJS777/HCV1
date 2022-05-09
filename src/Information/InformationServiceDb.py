@@ -1,6 +1,7 @@
 from .InformationModel import Information
 from flask import g
 from typing import List
+from src._general.helpers.paginate import get_page_items
 
 
 units: List[dict] = [{'id': 1, 'title': 'հատ'}, {'id': 2, 'title': 'կգ'}, {'id': 3, 'title': 'խորանարդ'}]
@@ -41,17 +42,22 @@ def get_by_title(title: str) -> Information:
     return information
 
 
-def get_all() -> List:
-    # GET ALL information
-    informations: List[Information] = Information.query.filter_by(client_id=g.client_id).all()
-    arr: List = []
-
-    for information in informations:
-        arr.append({'id': information.id,
-                    'title': information.title,
-                    'description': information.description,
-                    'unit_id': information.unit_id})
-    return arr
+def get_all(page: int, per_page: int) -> dict:
+    # # GET ALL information
+    # informations: List[Information] = Information.query.filter_by(client_id=g.client_id).all()
+    # arr: List = []
+    #
+    # for information in informations:
+    #     arr.append({'id': information.id,
+    #                 'title': information.title,
+    #                 'description': information.description,
+    #                 'unit_id': information.unit_id})
+    # return arr
+    return get_page_items(
+        Information.query.filter_by(client_id=g.client_id)
+            .order_by(-Information.id)
+            .paginate(page=page, per_page=per_page)
+    )
 
 
 def get_by_id(information_id: int) -> Information:

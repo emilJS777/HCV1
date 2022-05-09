@@ -60,12 +60,19 @@ def get_by_id(product_id: int) -> dict:
 
 
 # GET ALL IDS
-def get_all_ids() -> dict:
-    product_ids: List[int] = ProductServiceDb.get_all_ids()
-    return response(True, product_ids, 200)
+def get_all(page: int, per_page: int) -> dict:
+    products: dict = ProductServiceDb.get_all(
+        page=page,
+        per_page=per_page
+    )
+    return response(True, products, 200)
 
 
-# GET ALL IDS BY STORAGE ID
-def get_all_ids_by_storage_id(storage_id: int) -> dict:
-    product_ids: List[int] = ProductServiceDb.get_all_ids_by_storage_id(storage_id)
-    return response(True, product_ids, 200)
+# GET ALL BY STORAGE ID
+def get_all_by_storage_id(storage_id: int, page: int, per_page: int) -> dict:
+    products: dict = ProductServiceDb.get_all_by_storage_id(
+        storage_id=storage_id,
+        page=page,
+        per_page=per_page
+    )
+    return response(True, products, 200)

@@ -15,4 +15,4 @@ app.add_url_rule("/api/storage/<int:storage_id>", view_func=StorageController.de
 app.add_url_rule("/api/storage/<int:storage_id>", view_func=StorageController.get_by_id_storage, methods=["GET"])
 
 # GET ALL IDS
-app.add_url_rule("/api/storage", view_func=StorageController.get_all_ids_storage, methods=["GET"])
+app.add_url_rule("/api/storage", view_func=StorageController.get_all_storage, methods=["GET"])

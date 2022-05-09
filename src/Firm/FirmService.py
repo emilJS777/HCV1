@@ -64,9 +64,9 @@ def firm_get_by_id(firm_id):
 
 
 # GET ALL FIRM
-def firm_get_all():
+def firm_get_all(page: int, per_page: int) -> dict:
     # GET ALL CLIENTS BY CLIENT ID
-    firms_ids: List[int] = FirmServiceDb.get_all_ids()
+    firms_ids: dict = FirmServiceDb.get_all(page=page, per_page=per_page)
     return response(True, firms_ids, 200)
 
 

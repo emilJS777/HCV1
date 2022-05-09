@@ -1,5 +1,6 @@
 from .PositionModel import Position
 from typing import List
+from src._general.helpers.paginate import get_page_items
 
 
 def create(title: str) -> Position:
@@ -31,9 +32,14 @@ def get_by_id(position_id: int) -> Position:
     return position
 
 
-def get_all_ids() -> List[int]:
-    positions: List[Position] = Position.query.all()
-    position_ids: List[int] = []
-    for position in positions:
-        position_ids.append(position.id)
-    return position_ids
+def get_all(page: int, per_page: int) -> dict:
+    # positions: List[Position] = Position.query.all()
+    # position_ids: List[int] = []
+    # for position in positions:
+    #     position_ids.append(position.id)
+    # return position_ids
+    return get_page_items(
+        Position.query
+                .order_by(-Position.id)
+                .paginate(page=page, per_page=per_page)
+    )

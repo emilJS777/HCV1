@@ -31,7 +31,10 @@ def firm_get_by_id(firm_id):
 @ClientMiddleware.check_client(required=True)
 @PermissionMiddleware.check_permission("firm_get")
 def firm_get():
-    res = FirmService.firm_get_all()
+    res = FirmService.firm_get_all(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res
 
 

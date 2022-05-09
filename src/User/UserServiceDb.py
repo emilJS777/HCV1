@@ -4,6 +4,7 @@ from .UserHelper import generate_ticket_code
 from flask import g
 from sqlalchemy import or_, and_
 from typing import List
+from src._general.helpers.paginate import get_page_items
 
 
 def create(ticket, name, password):
@@ -87,13 +88,17 @@ def get_first_by_creator_id(creator_id):
 #     return arr
 
 
-def get_all() -> List:
-    arr: List[dict] = []
-    # GET ALL USER BY CLIENT ID
-    # ITERATE OVER ONE AT A TIME AND INSERT THE USER OBJECT INTO THE ARRAY
-    users: List[User] = User.query.filter_by(client_id=g.client_id).all()
+def get_all(page: int, per_page: int) -> dict:
+    # arr: List[dict] = []
+    # # GET ALL USER BY CLIENT ID
+    # # ITERATE OVER ONE AT A TIME AND INSERT THE USER OBJECT INTO THE ARRAY
+    # users: List[User] = User.query.filter_by(client_id=g.client_id).all()
+    # for user in users:
+    #     arr.append({'id': user.id, 'name': user.name, 'full_name': user.full_name})
+    # return arr
+    return get_page_items(
+        User.query.filter_by(client_id=g.client_id)
+            .order_by(-User.id)
+            .paginate(page=page, per_page=per_page)
+    )
 
-    for user in users:
-        arr.append({'id': user.id, 'name': user.name, 'full_name': user.full_name})
-
-    return arr

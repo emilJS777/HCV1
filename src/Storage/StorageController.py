@@ -57,7 +57,10 @@ def get_by_id_storage(storage_id: int) -> dict:
 # GET ALL IDS
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
-def get_all_ids_storage() -> dict:
-    res: dict = StorageService.get_all_ids()
+def get_all_storage() -> dict:
+    res: dict = StorageService.get_all(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res
 

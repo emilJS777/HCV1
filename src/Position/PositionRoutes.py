@@ -14,4 +14,4 @@ app.add_url_rule("/api/position/<int:position_id>", view_func=PositionController
 app.add_url_rule("/api/position/<int:position_id>", view_func=PositionController.get_by_id, methods=["GET"])
 
 # GET ALL IDS
-app.add_url_rule("/api/position", view_func=PositionController.get_all_ids, methods=["GET"])
+app.add_url_rule("/api/position", view_func=PositionController.get_all, methods=["GET"])

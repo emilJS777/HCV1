@@ -47,14 +47,21 @@ def get_by_id_product(product_id: int) -> dict:
 # GET ALL IDS
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
-def get_all_ids_product() -> dict:
-    res: dict = ProductService.get_all_ids()
+def get_all_product() -> dict:
+    res: dict = ProductService.get_all(
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res
 
 
 # GET ALL IDS BY STORAGE ID
 @AuthMiddleware.check_authorize
 @ClientMiddleware.check_client(required=True)
-def get_all_ids_product_by_storage_id(storage_id: int) -> dict:
-    res: dict = ProductService.get_all_ids_by_storage_id(storage_id)
+def get_all_product_by_storage_id() -> dict:
+    res: dict = ProductService.get_all_by_storage_id(
+        storage_id=int(request.args.get('storage_id')),
+        page=int(request.args.get('page')),
+        per_page=int(request.args.get('per_page'))
+    )
     return res
