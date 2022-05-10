@@ -20,14 +20,18 @@ def delete_bind(information_id: int, firm_id: int) -> InformationFirm:
     return information_firm
 
 
+# GET FIRM IDS BY INFOrmATiON ID
+def get_firm_ids_by_information_id(information_id: int) -> List[int]:
+    information_firms: List[InformationFirm] = InformationFirm.query.filter_by(information_id=information_id,
+                                                                               client_id=g.client_id).all()
+    firm_ids: List[int] = []
+    for information_firm in information_firms:
+        firm_ids.append(information_firm.firm_id)
+    return firm_ids
+
+
 # GET FIRM IDS BY INFORMATION ID
 def get_firms_by_information_id(information_id: int, page: int, per_page: int) -> dict:
-    # information_firms: List[InformationFirm] = InformationFirm.query.filter_by(information_id=information_id,
-    #                                                                            client_id=g.client_id).all()
-    # firm_ids: List[int] = []
-    # for information_firm in information_firms:
-    #     firm_ids.append(information_firm.firm_id)
-    # return firm_ids
     return get_page_items(
         InformationFirm.query.filter_by(client_id=g.client_id, information_id=information_id)
             .order_by(-InformationFirm.id)

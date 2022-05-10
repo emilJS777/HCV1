@@ -63,7 +63,7 @@ def get_by_id(product_id: int) -> Product:
 
 
 # GET ALL IDS
-def get_all(page: int, per_page: int) -> List[int]:
+def get_all(page: int, per_page: int) -> dict:
     # products: List[Product] = Product.query.filter_by(client_id=g.client_id).all()
     # product_ids: List[int] = []
     # for product in products:

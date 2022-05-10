@@ -2,6 +2,7 @@ from src.Firm.FirmModel import Firm
 from sqlalchemy import not_
 from flask import g
 from src._general.helpers.paginate import get_page_items
+from typing import List
 
 
 def create(req_body):
@@ -69,13 +70,16 @@ def get_by_id(firm_id):
     return firm
 
 
+def get_all_ids() -> List[int]:
+    firms_arr = []
+    # GET ALL FIRM BY THIS USER CLIENT ID
+    # ITERATE OVER ONE AT A TIME AND INSERT THE FIRM OBJECT INTO THE ARRAY
+    for firm in Firm.query.filter_by(client_id=g.client_id).all():
+        firms_arr.append(firm.id)
+    return firms_arr
+
+
 def get_all(page: int, per_page: int) -> dict:
-    # firms_arr = []
-    # # GET ALL FIRM BY THIS USER CLIENT ID
-    # # ITERATE OVER ONE AT A TIME AND INSERT THE FIRM OBJECT INTO THE ARRAY
-    # for firm in Firm.query.filter_by(client_id=g.client_id).all():
-    #     firms_arr.append(firm.id)
-    # return firms_arr
     return get_page_items(
         Firm.query.filter_by(client_id=g.client_id)
             .order_by(-Firm.id)
