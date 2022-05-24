@@ -1,7 +1,7 @@
 from src.User.UserModel import User
 from typing import List
 from flask import g
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 def bind_user_position(user_id: int, position_id: int) -> User:

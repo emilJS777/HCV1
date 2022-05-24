@@ -1,6 +1,6 @@
 from .PositionModel import Position
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 def create(title: str) -> Position:

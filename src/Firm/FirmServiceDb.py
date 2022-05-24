@@ -1,7 +1,7 @@
 from src.Firm.FirmModel import Firm
 from sqlalchemy import not_
 from flask import g
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 from typing import List
 
 

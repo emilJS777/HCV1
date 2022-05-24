@@ -1,13 +1,14 @@
 from .ExpenseModel import Expense
 from flask import g
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 # CREATE
-def create(expense_type: str, price: float, firm_id: int) -> Expense:
+def create(expense_type: str, price: float, description: str, firm_id: int) -> Expense:
     expense = Expense(
         expense_type=expense_type,
+        description=description,
         price=price,
         firm_id=firm_id
     )

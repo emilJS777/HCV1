@@ -1,7 +1,7 @@
 from .StorageModel import Storage
 from typing import List
 from flask import g
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 # CREATE

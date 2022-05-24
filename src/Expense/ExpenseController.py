@@ -13,6 +13,7 @@ def create_expense() -> dict:
     req: dict = request.get_json()
     res: dict = ExpenseService.create(
         expense_type=req['expense_type'],
+        description=req['description'],
         price=req['price'],
         firm_id=req['firm_id']
     )

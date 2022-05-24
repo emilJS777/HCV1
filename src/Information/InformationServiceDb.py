@@ -1,7 +1,7 @@
 from .InformationModel import Information
 from flask import g
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 units: List[dict] = [{'id': 1, 'title': 'հատ'}, {'id': 2, 'title': 'կգ'}, {'id': 3, 'title': 'խորանարդ'}]

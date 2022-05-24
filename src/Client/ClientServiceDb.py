@@ -1,6 +1,6 @@
 from .ClientModel import Client
 from flask import g
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 def create(name: str, description: str, max_count_firms: int, creator_id: int or None, parent_id: int or None):

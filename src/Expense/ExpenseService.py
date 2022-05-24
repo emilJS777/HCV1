@@ -5,13 +5,14 @@ from typing import List
 
 
 # CREATE
-def create(expense_type: str, price: float, firm_id: int) -> dict:
+def create(expense_type: str, price: float, description: str, firm_id: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
         return response(False, {'msg': 'firm not found'}, 404)
 
     ExpenseServiceDb.create(
         expense_type=expense_type,
+        description=description,
         price=price,
         firm_id=firm_id
     )
@@ -41,5 +42,6 @@ def get_by_id(expense_id: int) -> dict:
 
     return response(True, {'id': expense.id,
                            'expense_type': expense.expense_type,
+                           'description': expense.description,
                            'price': expense.price,
                            'firm_id': expense.firm_id}, 200)

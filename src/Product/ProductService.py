@@ -46,16 +46,9 @@ def get_by_id(product_id: int) -> dict:
     return response(True, {'id': product.id,
                            'title': product.title,
                            'code': product.code,
-                           'unit_measurement': product.unit_measurement,
-                           'group': product.group,
-                           'atgaa_classifier': product.atgaa_classifier,
-                           'account': product.account,
+                           'unit_id': product.unit_id,
                            'wholesale_price': product.wholesale_price,
                            'retail_price': product.retail_price,
-                           'other_currency': product.other_currency,
-                           'wholesale_price_other_currency': product.wholesale_price_other_currency,
-                           'hcb_coefficient': product.hcb_coefficient,
-                           'accounting_method': product.accounting_method,
                            'storage_id': product.storage_id}, 200)
 
 

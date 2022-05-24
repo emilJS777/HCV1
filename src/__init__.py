@@ -1,5 +1,5 @@
-from .config import app, db, logger
-from ._general.utils import context_initializer
+from .config import app, db, logger, api
+from .__general.utils import context_initializer
 
 from .Auth import AuthRoutes
 from .Client import ClientRoutes
@@ -19,8 +19,10 @@ from .PermissionCategory import PermissionCategoryRoutes
 
 from .Storage import StorageRoutes
 from .Product import ProductRoutes
+from .ProductSale import ProductSaleRoutes
 from .Expense import ExpenseRoutes
 
 from .UserPermission import UserPermissionRoutes
 from .Income import IncomeRoutes
+
 

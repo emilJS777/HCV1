@@ -4,7 +4,7 @@ from .UserHelper import generate_ticket_code
 from flask import g
 from sqlalchemy import or_, and_
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 def create(ticket, name, password):

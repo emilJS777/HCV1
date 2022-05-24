@@ -18,7 +18,8 @@ class Initializer:
                    {'name': 'user_get', 'title': 'get User', 'firm': False}, {'name': 'user_edit', 'title': 'redactor User', 'firm': False},
                    {'name': 'firm_get', 'title': 'get Firm', 'firm': False}, {'name': 'firm_edit', 'title': 'redactor Firm', 'firm': False},
                    {'name': 'expense_get', 'title': 'get expense', 'firm': True}, {'name': 'expense_edit', 'title': 'edit expense', 'firm': True},
-                   {'name': 'income_get', 'title': 'get incomes', 'firm': True}, {'name': 'income_edit', 'title': 'edit income', 'firm': True}]
+                   {'name': 'income_get', 'title': 'get incomes', 'firm': True}, {'name': 'income_edit', 'title': 'edit income', 'firm': True},
+                   {'name': 'product_get', 'title': 'get product', 'firm': False}, {'name': 'product_edit', 'title': 'edit product', 'firm': False}]
 
     def __init__(self):
         client = self.client_initializer()

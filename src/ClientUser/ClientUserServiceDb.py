@@ -1,5 +1,5 @@
 from src.User.UserModel import User
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 def delete_bind(client_id, user_id):
@@ -16,8 +16,6 @@ def get_users_by_client_id(page: int, per_page: int, client_id: int):
     #     arr_user_ids.append(user.id)
     # return arr_user_ids
     return get_page_items(User.query.filter_by(client_id=client_id).order_by(-User.id).paginate(page=page, per_page=per_page))
-
-
 
 
 def get_by_user_id_client_id(user_id, client_id):

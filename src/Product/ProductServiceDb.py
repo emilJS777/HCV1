@@ -1,7 +1,7 @@
 from .ProductModel import Product
 from flask import g
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 # CREATE
@@ -9,20 +9,12 @@ def create(body: dict) -> Product:
     product: Product = Product(
         title=body['title'],
         code=body['code'],
-        unit_measurement=body['unit_measurement'],
-        group=body['group'],
-
-        atgaa_classifier=body['atgaa_classifier'],
-        account=body['account'],
+        unit_id=body['unit_id'],
         wholesale_price=body['wholesale_price'],
         retail_price=body['retail_price'],
-
-        other_currency=body['other_currency'],
-        wholesale_price_other_currency=body['wholesale_price_other_currency'],
-        hcb_coefficient=body['hcb_coefficient'],
-        accounting_method=body['accounting_method'],
         storage_id=body['storage_id'],
-        client_id=g.client_id
+        client_id=g.client_id,
+        count=body['count']
     )
     product.save_db()
     return product
@@ -33,19 +25,20 @@ def update(product_id: int, body: dict) -> Product:
     product: Product = Product.query.filter_by(id=product_id).first()
     product.title = body['title']
     product.code = body['code']
-    product.unit_measurement = body['unit_measurement']
-    product.group = body['group']
-
-    product.atgaa_classifier = body['atgaa_classifier']
-    product.account = body['account']
+    product.unit_id = body['unit_id']
     product.wholesale_price = body['wholesale_price']
     product.retail_price = body['retail_price']
-
-    product.other_currency = body['other_currency']
-    product.wholesale_price_other_currency = body['wholesale_price_other_currency']
-    product.hcb_coefficient = body['hcb_coefficient']
-    product.accounting_method = body['accounting_method']
     product.storage_id = body['storage_id']
+    product.count = body['count']
+    product.update_db()
+    return product
+
+
+# CHANGE PRODUCT COUNT
+def update_count(product_id: int, count: float) -> Product:
+    product: Product = Product.query.filter_by(id=product_id).first()
+    product.count = count
+    product.update_db()
     return product
 
 
@@ -88,3 +81,4 @@ def get_all_by_storage_id(storage_id: int, page: int, per_page: int) -> dict:
             .order_by(-Product.id)
             .paginate(page=page, per_page=per_page)
     )
+

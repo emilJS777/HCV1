@@ -1,7 +1,7 @@
 from .IncomeModel import Income
 from flask import g
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 income_types: List[dict] = [{'id': 1, 'title': 'անկանխիկ,'},

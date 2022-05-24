@@ -1,7 +1,7 @@
 from .InformationFirmModel import InformationFirm
 from flask import g
 from typing import List
-from src._general.helpers.paginate import get_page_items
+from src.__general.helpers.paginate import get_page_items
 
 
 # CREATE INFORMATION FIRM BIND

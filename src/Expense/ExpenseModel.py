@@ -6,13 +6,15 @@ class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     expense_type = db.Column(db.String(50), nullable=False)
     price = db.Column(db.Numeric(8, 2))
+    description = db.Column(db.String(120))
     firm_id = db.Column(db.Integer, nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow())
     client_id = db.Column(db.Integer, nullable=False)
 
     # CONSTRUCTOR
-    def __init__(self, expense_type: str, price: float, firm_id: int):
+    def __init__(self, expense_type: str, price: float, description: str, firm_id: int):
         self.expense_type = expense_type
+        self.description = description
         self.price = price
         self.firm_id = firm_id
 
