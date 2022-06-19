@@ -7,7 +7,7 @@ from src.Storage import StorageServiceDb
 # CREATE
 def create(body: dict) -> dict:
     if not StorageServiceDb.get_by_id(storage_id=body['storage_id']):
-        return response(False, {'msg': 'Storage not found'}, 404)
+        return response(False, {'msg': 'Storage not found'}, 200)
 
     ProductServiceDb.create(body)
     return response(True, {'msg': 'Product successfully created'}, 200)
@@ -16,10 +16,10 @@ def create(body: dict) -> dict:
 # UPDATE
 def update(product_id: int, body: dict) -> dict:
     if not StorageServiceDb.get_by_id(storage_id=body['storage_id']):
-        return response(False, {'msg': 'Storage not found'}, 404)
+        return response(False, {'msg': 'Storage not found'}, 200)
 
     if not ProductServiceDb.get_by_id(product_id):
-        return response(False, {'msg': 'Product not found'}, 404)
+        return response(False, {'msg': 'Product not found'}, 200)
 
     ProductServiceDb.update(
         product_id=product_id,
@@ -31,7 +31,7 @@ def update(product_id: int, body: dict) -> dict:
 # DELETE
 def delete(product_id: int) -> dict:
     if not ProductServiceDb.get_by_id(product_id):
-        return response(False, {'msg': 'Product not found'}, 404)
+        return response(False, {'msg': 'Product not found'}, 200)
 
     ProductServiceDb.delete(product_id)
     return response(True, {'msg': 'Product successfully deleted'}, 200)
@@ -41,7 +41,7 @@ def delete(product_id: int) -> dict:
 def get_by_id(product_id: int) -> dict:
     product: ProductServiceDb.Product = ProductServiceDb.get_by_id(product_id)
     if not product:
-        return response(False, {'msg': 'Product not found'}, 404)
+        return response(False, {'msg': 'Product not found'}, 200)
 
     return response(True, {'id': product.id,
                            'title': product.title,

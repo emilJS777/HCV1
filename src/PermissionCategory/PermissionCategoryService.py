@@ -6,7 +6,7 @@ from typing import List
 # CREATE
 def create(title: str, description: str) -> dict:
     if PermissionCategoryServiceDb.get_by_title(title):
-        return response(False, {'msg': 'Information by this title exist'}, 409)
+        return response(False, {'msg': 'Information by this title exist'}, 200)
 
     PermissionCategoryServiceDb.create(
         title,
@@ -18,7 +18,7 @@ def create(title: str, description: str) -> dict:
 # UPDATE
 def update(permission_category_id: int, title: str, description: str) -> dict:
     if not PermissionCategoryServiceDb.get_by_id(permission_category_id):
-        return response(False, {'msg': 'Information not found'}, 404)
+        return response(False, {'msg': 'Information not found'}, 200)
 
     PermissionCategoryServiceDb.update(
         permission_category_id,
@@ -31,7 +31,7 @@ def update(permission_category_id: int, title: str, description: str) -> dict:
 # DELETE
 def delete(permission_category_id: int) -> dict:
     if not PermissionCategoryServiceDb.get_by_id(permission_category_id):
-        return response(False, {'msg': 'Information not found'}, 404)
+        return response(False, {'msg': 'Information not found'}, 200)
 
     PermissionCategoryServiceDb.delete(
         permission_category_id
@@ -45,7 +45,7 @@ def get_by_id(permission_category_id: int) -> dict:
         PermissionCategoryServiceDb.get_by_id(permission_category_id)
 
     if not permission_category:
-        return response(False, {'msg': 'Information not found'}, 404)
+        return response(False, {'msg': 'Information not found'}, 200)
 
     return response(True, {
         'id': permission_category.id,

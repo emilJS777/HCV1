@@ -17,11 +17,11 @@ def bind_client_user(client_id, user_id):
     #  IF ONE OF THEM DOES NOT EXIST RETURN NOT FOUND
     if not ClientServiceDb.get_by_id(client_id=client_id) \
             or not UserServiceDb.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id):
-        return response(False, {'msg': 'Client or/and User not found'}, 404)
+        return response(False, {'msg': 'Client or/and User not found'}, 200)
 
     # IF THE USER HAS SUCH CLIENT ID RETURN ANSWER ABOUT THE EXISTENCE OF THIS RECORD
     if ClientUserServiceDb.get_by_user_id_client_id(user_id=user_id, client_id=client_id):
-        return response(False, {'msg': 'this Client has such User'}, 409)
+        return response(False, {'msg': 'this Client has such User'}, 200)
 
     #  ELSE BIND USER CLIENT ID
     ClientUserServiceDb.create_bind(client_id=client_id, user_id=user_id)
@@ -33,11 +33,11 @@ def unbind_client_user(client_id, user_id):
     #  IF ONE OF THEM DOES NOT EXIST RETURN NOT FOUND
     if not ClientServiceDb.get_by_id(client_id=client_id) \
             or not UserServiceDb.get_by_id_creator_id(user_id=user_id, creator_id=g.user_id):
-        return response(False, {'msg': 'Client or/and User not found'}, 404)
+        return response(False, {'msg': 'Client or/and User not found'}, 200)
 
     # IF THE USER DOESN'T HAVE SUCH CLIENT ID, RETURN AN ANSWER ABOUT THE ABSENCE OF THIS RECORD
     if not ClientUserServiceDb.get_by_user_id_client_id(user_id=user_id, client_id=client_id):
-        return response(False, {'msg': 'the Client does not have such a User'}, 409)
+        return response(False, {'msg': 'the Client does not have such a User'}, 200)
 
     # GET USER BY ID AND REMOVE BIND ON CLIENT
     ClientUserServiceDb.delete_bind(client_id=client_id, user_id=user_id)

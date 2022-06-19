@@ -6,7 +6,7 @@ from typing import List
 def create(title: str) -> dict:
     # GET BY TITLE IF EXIST REtURN CONFLICT
     if PositionServiceDb.get_by_title(title):
-        return response(False, {'msg' 'Position by this title exist'}, 409)
+        return response(False, {'msg' 'Position by this title exist'}, 200)
 
     # ELSE CREATE NE POSITION
     PositionServiceDb.create(title)
@@ -16,11 +16,11 @@ def create(title: str) -> dict:
 def update(position_id: int, title: str) -> dict:
     # GET BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     if not PositionServiceDb.get_by_id(position_id):
-        return response(False, {'msg': 'Position not found'}, 404)
+        return response(False, {'msg': 'Position not found'}, 200)
 
     # GET BY TITLE IF EXIST REtURN CONFLICT
     if PositionServiceDb.get_by_title(title):
-        return response(False, {'msg': 'Position by this title exist'}, 409)
+        return response(False, {'msg': 'Position by this title exist'}, 200)
 
     PositionServiceDb.update(position_id, title)
     return response(True, {'msg': 'Position successfully updated'}, 200)
@@ -29,7 +29,7 @@ def update(position_id: int, title: str) -> dict:
 def delete(position_id: int) -> dict:
     # GET BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     if not PositionServiceDb.get_by_id(position_id):
-        return response(False, {'msg': 'Position not found'}, 404)
+        return response(False, {'msg': 'Position not found'}, 200)
 
     # ELSE REMOVE POSITION AND RETURN OK
     PositionServiceDb.delete(position_id)
@@ -40,7 +40,7 @@ def get_by_id(position_id: int) -> dict:
     # GET BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     position: PositionServiceDb.Position = PositionServiceDb.get_by_id(position_id)
     if not position:
-        return response(False, {'msg': 'Position not found'}, 404)
+        return response(False, {'msg': 'Position not found'}, 200)
 
     # ELSE RETURN POSITION FIELD
     return response(True, {'id': position.id, 'title': position.title}, 200)

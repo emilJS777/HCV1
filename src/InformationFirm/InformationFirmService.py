@@ -9,11 +9,11 @@ from typing import List
 def bind_information_firm(information_id: int, firm_id: int):
     # GET INFORMATION BY ID AND FIRM BY ID AND VERIFY. IF NOT FOUND RETURN NOT FOUND
     if not InformationServiceDb.get_by_id(information_id=information_id) or not FirmServiceDb.get_by_id(firm_id=firm_id):
-        return response(False, {'msg': 'Information and/or Firm not found'}, 404)
+        return response(False, {'msg': 'Information and/or Firm not found'}, 200)
 
     # GET INFORMATION_FIRM BY INFORMATION ID AND FIRM ID AND VERIFY. IF RECORD EXIST RETURN CONFLICT
     elif InformationFirmServiceDb.get_by_information_id_firm_id(information_id=information_id, firm_id=firm_id):
-        return response(False, {'msg': 'record exists'}, 409)
+        return response(False, {'msg': 'record exists'}, 200)
 
     # ELSE CREATE AN ENTRY WITH INFORMATION ID AND FIRM ID AND RETURN OK
     else:
@@ -25,7 +25,7 @@ def bind_information_firm(information_id: int, firm_id: int):
 def unbind_information_firm(information_id: int, firm_id: int):
     # GET BY INFORMATION ID AND FIRM ID AND VERIFY. IF NOT FOUND RETURN NOT FOUND
     if not InformationFirmServiceDb.get_by_information_id_firm_id(information_id=information_id, firm_id=firm_id):
-        return response(False, {'msg': 'entry does not exist'}, 404)
+        return response(False, {'msg': 'entry does not exist'}, 200)
 
     # ELSE REMOVE THIS RECORD AND RETURN OK
     else:
@@ -37,7 +37,7 @@ def unbind_information_firm(information_id: int, firm_id: int):
 def get_firms_by_information_id(information_id: int, page: int, per_page: int):
     # GET INFORMATION BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     if not InformationServiceDb.get_by_id(information_id=information_id):
-        return response(False, {'msg': 'Information not found'}, 404)
+        return response(False, {'msg': 'Information not found'}, 200)
 
     # ELSE RETURN FIRM IDS BY INFORMATION ID
     else:

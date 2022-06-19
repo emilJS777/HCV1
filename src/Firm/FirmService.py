@@ -12,11 +12,11 @@ from src.UserPermission import UserPermissionServiceDb
 def firm_create(req_body):
     # IF FIND THIS FIRM TITLE RETURN RESPONSE CONFLICT
     if FirmServiceDb.get_by_title(title=req_body['title']):
-        return response(False, {'msg': 'Firm title is taken'}, 409)
+        return response(False, {'msg': 'Firm title is taken'}, 200)
 
     # IF THE NUMBER OF FIRMS IS ATTACHED RETURN LIMIT LOST
     if not len(FirmServiceDb.get_all_ids()) < ClientServiceDb.get_self_client().max_count_firms:
-        return response(False, {'msg': 'limit lost'}, 202)
+        return response(False, {'msg': 'limit lost'}, 200)
 
     # ELSE FIRM BY THIS TITLE SAVE
     else:
@@ -42,7 +42,7 @@ def firm_get_by_id(firm_id):
     # GET FIRM BY ID END VERIFY USER DOES IT EXIST. IF NO RETURN NOT FOUND
     firm = FirmServiceDb.get_by_id(firm_id=firm_id)
     if not firm:
-        return response(False, {'msg': 'Firm by this id not found'}, 404)
+        return response(False, {'msg': 'Firm by this id not found'}, 200)
 
     # ELSE RETURN THIS FIRM AND STATUS OK
     return response(True, {'id': firm.id,
@@ -74,11 +74,11 @@ def firm_get_all(page: int, per_page: int) -> dict:
 def firm_update(firm_id: int, req_body):
     # GET FIRM BY ID AND VERIFY DOES IT EXIST. IF NO RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id=firm_id):
-        return response(False, {'msg': 'Firm by this id not found'}, 404)
+        return response(False, {'msg': 'Firm by this id not found'}, 200)
 
     # VERIFY IF THERE IS A FIRM WITH THE SAME TITLE RETURN CONFLICT
     if FirmServiceDb.get_by_title_exclude_id(firm_id=firm_id, title=req_body['title']):
-        return response(False, {'msg': 'Firm by this title exist'}, 409)
+        return response(False, {'msg': 'Firm by this title exist'}, 200)
 
     # ELSE CHANGE AND UPDATE DB AND RETURN RESPONSE OK
     FirmServiceDb.update(firm_id=firm_id, req_body=req_body)
@@ -89,7 +89,7 @@ def firm_update(firm_id: int, req_body):
 def firm_delete(firm_id: int):
     # GET FIRM BY ID AND VERIFY DIES EXIST. IF NO RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id=firm_id):
-        return response(False, {"msg": "Firm by this id not found"}, 404)
+        return response(False, {"msg": "Firm by this id not found"}, 200)
 
     # IF THIS FIRM TIED TO INFORMATION REMOVE THIS BINDING
     for information_id in InformationFirmServiceDb.get_information_ids_by_firm_id(firm_id=firm_id):

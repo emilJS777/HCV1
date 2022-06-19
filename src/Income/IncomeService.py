@@ -9,7 +9,7 @@ from typing import List
 def create(price: float, firm_id: int, information_id: int, income_type_id: int) -> dict:
     # GET FIRM BY ID & INFORMATION BY ID. IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id) or not InformationServiceDb.get_by_id(information_id):
-        return response(False, {'msg': 'firm and/or information not found'}, 404)
+        return response(False, {'msg': 'firm and/or information not found'}, 200)
 
     # GET INCOME TYPE BY ID AND VEriFY IF EXIST CREATE INCOME AND RETURN OK
     for income_type in IncomeServiceDb.income_types:
@@ -24,14 +24,14 @@ def create(price: float, firm_id: int, information_id: int, income_type_id: int)
             return response(True, {'msg': 'income successfully created'}, 200)
 
     # ELSE RETURN INCOME type NOT FOUND
-    return response(False, {'msg': 'income type not found'}, 404)
+    return response(False, {'msg': 'income type not found'}, 200)
 
 
 # GET ALL IDS BY FIRM ID
 def get_all_by_filter(firm_id: int, income_type_id: int, page: int, per_page: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
-        return response(False, {'msg': 'firm not found'}, 404)
+        return response(False, {'msg': 'firm not found'}, 200)
 
     incomes: dict = IncomeServiceDb.get_all_by_filter(
         firm_id=firm_id,
@@ -47,7 +47,7 @@ def get_by_id(income_id: int) -> dict:
     # GET BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     income: IncomeServiceDb.Income = IncomeServiceDb.get_by_id(income_id)
     if not income:
-        return response(False, {'msg': 'income not found'}, 404)
+        return response(False, {'msg': 'income not found'}, 200)
     else:
         return response(True, {'id': income.id,
                                'price': income.price,
@@ -70,4 +70,4 @@ def get_by_id_income_type(income_type_id: int) -> dict:
             return response(True, {'id': income_type['id'], 'title': income_type['title']}, 200)
 
     # IF NOT FOUND RETURN NOT FOUND
-    return response(False, {'msg': 'income type not found'}, 404)
+    return response(False, {'msg': 'income type not found'}, 200)

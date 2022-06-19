@@ -8,7 +8,7 @@ from typing import List
 def create(expense_type: str, price: float, description: str, firm_id: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
-        return response(False, {'msg': 'firm not found'}, 404)
+        return response(False, {'msg': 'firm not found'}, 200)
 
     ExpenseServiceDb.create(
         expense_type=expense_type,
@@ -23,7 +23,7 @@ def create(expense_type: str, price: float, description: str, firm_id: int) -> d
 def get_all_by_firm_id(page: int, per_page: int, firm_id: int) -> dict:
     # GET FIRM BY ID IF NOT FOUND RETURN NOT FOUND
     if not FirmServiceDb.get_by_id(firm_id):
-        return response(False, {'msg': 'firm not found'}, 404)
+        return response(False, {'msg': 'firm not found'}, 200)
 
     expenses: dict = ExpenseServiceDb.get_all_by_firm_id(
         page=page,
@@ -38,7 +38,7 @@ def get_by_id(expense_id: int) -> dict:
     # GET BY ID AND VERIFY IF NOT FOUND RETURN NOT FOUND
     expense: ExpenseServiceDb.Expense = ExpenseServiceDb.get_by_id(expense_id)
     if not expense:
-        return response(False, {'msg': 'expense not found'}, 404)
+        return response(False, {'msg': 'expense not found'}, 200)
 
     return response(True, {'id': expense.id,
                            'expense_type': expense.expense_type,

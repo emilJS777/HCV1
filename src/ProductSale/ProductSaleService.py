@@ -14,7 +14,7 @@ class ProductSaleService(Service):
         product: ProductServiceDb.Product = ProductServiceDb.get_by_id(product_id)
 
         if not product or count > product.count:
-            return self.response(False, {'msg': 'product and/or product count not found'}, 404)
+            return self.response(False, {'msg': 'product and/or product count not found'}, 200)
 
         # IF ALL READY UPDATE PRODUCT COUNT AND SAVE PRODUCT SALE
         ProductServiceDb.update_count(product_id=product_id, count=float(float(product.count)-float(count)))
@@ -37,7 +37,7 @@ class ProductSaleService(Service):
         product_sale: ProductSaleRepository = ProductSaleRepository()
 
         if not product_sale.get_by_id(product_sale_id):
-            return self.response(False, {'msg': 'product sale not found'}, 404)
+            return self.response(False, {'msg': 'product sale not found'}, 200)
 
         product_sale.delete(product_sale_id)
         return self.response(True, {'msg': 'product sale successfully deleted'}, 200)
@@ -47,7 +47,7 @@ class ProductSaleService(Service):
         product_sale: dict = ProductSaleRepository().get_by_id(product_sale_id)
 
         if not product_sale:
-            return self.response(False, {'msg': 'product sale not found'}, 404)
+            return self.response(False, {'msg': 'product sale not found'}, 200)
 
         return self.response(True, product_sale, 200)
 

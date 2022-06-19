@@ -7,7 +7,7 @@ from src.Firm import FirmServiceDb
 # CREATE
 def create(title: str, code: str, address: str, storekeeper: str, firm_id: int) -> dict:
     if not FirmServiceDb.get_by_id(firm_id):
-        return response(False, {'msg': 'Firm not found'}, 404)
+        return response(False, {'msg': 'Firm not found'}, 200)
 
     StorageServiceDb.create(
         title=title,
@@ -22,10 +22,10 @@ def create(title: str, code: str, address: str, storekeeper: str, firm_id: int) 
 # UPDATE
 def update(storage_id: int, title: str, code: str, address: str, storekeeper: str, firm_id: int) -> dict:
     if not FirmServiceDb.get_by_id(firm_id):
-        return response(False, {'msg': 'Firm not found'}, 404)
+        return response(False, {'msg': 'Firm not found'}, 200)
 
     if not StorageServiceDb.get_by_id(storage_id):
-        return response(False, {'msg': 'Storage not found'}, 404)
+        return response(False, {'msg': 'Storage not found'}, 200)
 
     StorageServiceDb.update(
         storage_id=storage_id,
@@ -41,7 +41,7 @@ def update(storage_id: int, title: str, code: str, address: str, storekeeper: st
 # DELETE
 def delete(storage_id: int) -> dict:
     if not StorageServiceDb.get_by_id(storage_id):
-        return response(False, {'msg': 'Storage not found'}, 404)
+        return response(False, {'msg': 'Storage not found'}, 200)
 
     StorageServiceDb.delete(storage_id)
     return response(True, {'msg': 'Storage successfully deleted'}, 200)
@@ -51,7 +51,7 @@ def delete(storage_id: int) -> dict:
 def get_by_id(storage_id: int) -> dict:
     storage: StorageServiceDb.Storage = StorageServiceDb.get_by_id(storage_id)
     if not storage:
-        return response(False, {'msg': 'Storage not found'}, 404)
+        return response(False, {'msg': 'Storage not found'}, 200)
 
     return response(True, {'id': storage.id,
                            'code': storage.code,

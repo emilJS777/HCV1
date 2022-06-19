@@ -12,7 +12,7 @@ def login(user_name, password):
     # RETURN RESPONSE UNAUTHORIZED
     user = UserServiceDb.get_by_name(name=user_name)
     if not user or not check_password_hash(user.password_hash, password):
-        return response(False, {'msg': 'invalid User name and/or password'}, 401)
+        return response(False, {'msg': 'invalid User name and/or password'}, 200)
 
     # UPDATE AUTH PAIR TOKENS AND RETURN
     new_auth = AuthServiceDb.update_pair_tokens(user_id=user.id)
